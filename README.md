@@ -17,7 +17,8 @@ pip install secure-smtplib
 ### ¿En qué consiste?
 El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplzamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
 **Importante: No importa si la letra es mayúscula o minúscula.**
-## Sitema de cifrado implementado en el proyecto.
+## Sitema de cifrado implementado en el proyecto:
+
 #### AD_DA: Orden del Alfabeto (se puede usar cualquier letra)
 En terminos simples si el alfabeto se tomara como una lista, cada letra tendria un indice, si el indice de la primera es menor al de la segunda, es AD en caso contrario es DA
 
@@ -31,3 +32,107 @@ Desplazamiento basado en cifrado cesar, al guardarse como regla este numero se r
 
 #### DX#
 Sera AD_DA + X# y la posicion dentro del texto, escencialmente son las reglas y en donde se guardan, funcionara como un "insert", esta regla es escencial para facilitar el desencriptado
+
+```python
+import random
+alpha_base = list("abcdefghijklmnopqrstuvwxyz") #Alfabeto estandar
+def cifrado_atedv2(texto):
+  desplazamiento = random.randint(1,25) #el desplazamiento sera aleatorio
+  orden=random.choice(["AD","DA"])#Aqui se definira el orden del alfabeto a usar
+  #Valor aleatorio para AD_DA
+  A=(random.randint(0, 23)) #Una letra random del alfabeto
+  D=(random.randint(A+1, 25)) #Otra letra random de indice mayor que A
+  if orden=="AD":
+    alfa=alpha_base
+    AD_DA=str(alpha_base[A]) + str(alpha_base[D]) 
+  if orden=="DA":
+    alfa=list("zyxwvutsrqponmlkjihgfedcba") #Alfabeto inverso en caso de "DA"
+    AD_DA=str(alpha_base[D]) + str(alpha_base[A])
+  alpha = alfa
+  texto_cifrado = [] # Los caracteres se guardaran en una lista de 1 en 1
+  for char in texto:  #Se repetira por la longitud de caracteres en el texto
+    if char.isalpha():  #Identificar si es una letra del alfabeto
+      char_minus = char.lower() # Convertimos la letra a minúscula para simplificar
+      indice = alpha.index(char_minus)  #Encontramos el indice de la letra en el alfabeto
+      # Desplazamos la letra, usando módulo para que se mantenga dentro del rango (A-Z)
+      nuevo_indice = (indice + desplazamiento) % 26
+      nuevo_char = alpha[nuevo_indice]
+      if char.isupper(): # Si la letra original era mayúscula, la convertimos nuevamente a mayúscula
+        nuevo_char = nuevo_char.upper()
+      texto_cifrado.append(nuevo_char) #La letra nueva se agregara a la lista como caracter unico
+    else:
+      texto_cifrado.append(char) #Si no es una letra, lo agregamos tal cual (espacios, signos de puntuación, etc.)
+  Xn=alpha_base[desplazamiento]
+  pos=random.randint(0, len(list(texto_original))) #Posicion de DX
+  DX =(AD_DA+Xn) #DX es el orden y desplazamiento cesar
+  texto_cifrado.insert(pos, DX) #DX sera insertado en la lista en una "pos"icion random
+
+  salida=''.join(texto_cifrado) #''join agregara los elementos de la lista "texto_cifrado" a una cadena vacia 
+  #transformandola efectivamente en una cadena
+
+  salidas=[salida, DX, pos] # [0] es la cadena cifrada
+  return salidas #salidas=[salida, DX, pos] (Guia de elementos)
+
+def des_atedv2(salidad, DX, pos):
+  reglas=list(DX) #Se desarman las reglas guardadas
+  salida=list(salidad) #Tranformar la cadena cifrada en lista para facilitar 1 modificacion
+  #Esta parte definira el orden de alfabeto usado:
+  letra1 = alpha_base.index(reglas[0]) 
+  letra2 = alpha_base.index(reglas[1]) 
+  desplazamiento=alpha_base.index(reglas[2]) #La 3ra letra se transformara en un numero con esto
+  #cada letra tiene un indice definido en el alpha_base veremos cual va primero para definir el orden
+  if letra1<letra2:
+    orden="AD"
+  else: orden="DA"
+
+  for p in range(3):#Esto eliminara DX de la cadena (aqui aplica el porque de la conversion)
+    salida.pop(pos) #Quitara los caracteres de DX
+
+  salida=''.join(salida) #lo convertimos a cadena de nuevo para reciclar la funcion
+
+  #Consulta de orden y definicion de alfabeto:
+  if orden=="AD":
+    alfa=alpha_base
+  if orden=="DA":
+    alfa=list("zyxwvutsrqponmlkjihgfedcba") #Alfabeto inverso en caso de "DA"
+  alpha = alfa #Alfabeto definido con el orden
+  texto_descifrado = [] # Los caracteres se guardaran en una lista de 1 en 1
+  for char in salida:  #Se repetira por la longitud de caracteres en el texto
+    if char.isalpha():  #Identificar si es una letra del alfabeto
+      char_minus = char.lower() # Convertimos la letra a minúscula para simplificar
+      indice = alpha.index(char_minus)  #Encontramos el indice de la letra en el alfabeto
+      # Desplazamos la letra, usando módulo para que se mantenga dentro del rango (A-Z)
+      nuevo_indice = (indice - desplazamiento) % 26 #Esta vez restandole el desplazamiento
+      nuevo_char = alpha[nuevo_indice] #La letra modificada
+      if char.isupper(): # Si la letra original era mayúscula, la convertimos nuevamente a mayúscula
+        nuevo_char = nuevo_char.upper()
+      texto_descifrado.append(nuevo_char) #La letra nueva se agregara a la lista como caracter unico
+    else:
+      texto_descifrado.append(char) #Si no es una letra, lo agregamos tal cual (espacios, signos de puntuación, etc.)
+
+  salida_f=''.join(texto_descifrado)
+  
+  return salida_f
+  
+if __name__=="__main__":
+  print("CIFRADO!")
+  texto_original = input("Texto a cifrar: ") # Hola Mundo!
+  
+  texto_cifrado = cifrado_atedv2(texto_original) #La salida sera totalmente aleatorea
+  
+  print("Texto original:", texto_original)
+  print("Texto cifrado:", texto_cifrado[0]) #Solo el primer elemento de la lista de salida sera la palabra cifrada
+
+  print("DESCIFRADO!")
+  
+  #salidas=[salida, DX, pos] esta es la informacion valioza >:)
+
+  salida=texto_cifrado[0]
+  DX=texto_cifrado[1]
+  pos=texto_cifrado[2]
+  
+  texto_desencriptado = des_atedv2(salida, DX, pos) #La salida sera totalmente aleatorea
+  
+  print("Texto cifrado:", texto_cifrado[0]) 
+  print("Texto descifrado:", texto_desencriptado)
+```
