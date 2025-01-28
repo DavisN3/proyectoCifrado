@@ -185,3 +185,4 @@ if __name__ == "__main__":
         #Esperamos el intervalo (intervalo) para que se vuelva a enviar otro correo.
         time.sleep(intervalo)
 ```
+# Combinación de la contraseña y la automatización de mensajes.
