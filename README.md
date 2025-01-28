@@ -1,9 +1,12 @@
 # Código de Schrodinger - proyectoCifrado
 En el presente repositorio encontraran los avances preliminares al desarrollo del proyecto final del área de informática, con la finalidad de dar revisión y avance al planteamiento que se está desarrollando.
+
 #Tabla de contenido
 - [¿En qué consiste el proyectoCifrado?](# ¿En_qué_consiste_el_proyectoCifrado?)
+
 # ¿En qué consiste el proyectoCifrado?
 Este proyecto consiste en la implementación de un sistema de cifrado personalizado basado en el cifrado César. Su objetivo es permitir que los mensajes sean cifrados y enviados a través de un chat, de modo que el receptor pueda descifrar el contenido solo si tiene la contraseña, la cual será enviada al ejecutarse el código por correo electrónico, con el agregado de que es una contraseña temporal y cambia cada "num" segundos.
+
 ## Extensiones preliminares
 Antes de ejecutar el código es necesario instalar las siguiente extensión.
 ### Pasos:
@@ -14,11 +17,15 @@ Antes de ejecutar el código es necesario instalar las siguiente extensión.
 ```python
 pip install secure-smtplib
 ```
+
 # Código cifrado
+
 ## Cifrado César
+
 ### ¿En qué consiste?
 El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplzamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
 **Importante: No importa si la letra es mayúscula o minúscula.**
+
 ## Sitema de cifrado implementado en el proyecto:
 
 #### AD_DA: Orden del Alfabeto (se puede usar cualquier letra)
@@ -138,8 +145,10 @@ if __name__=="__main__":
   print("Texto cifrado:", texto_cifrado[0]) 
   print("Texto descifrado:", texto_desencriptado)
 ```
+
 #  Automatización de mensajes (contraseña).
 El código tiene como funcionalidad envíar un correo electrónico de manera periódica (automatizada) de manera alaeatoria generada cada vez que se ejecuta el código. Dicho proceso se ejecuta en un bucle infinito, el cual el mensaje cada que pase "intervalo" segundos se genera un nuevo número aleatorio y se vuelve a enviar al correo dicha contraseña. Esto gracias principalmente a la librería "email.mime" que permite lograr este tipo de programas.
+
 ```python
 import smtplib
 import random
@@ -187,7 +196,9 @@ if __name__ == "__main__":
         #Esperamos el intervalo (intervalo) para que se vuelva a enviar otro correo.
         time.sleep(intervalo)
 ```
+
 # Combinación de la contraseña y el proceso de automatización de la contraseña.
+
 ```python
 import smtplib
 import random
