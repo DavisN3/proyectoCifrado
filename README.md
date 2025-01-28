@@ -137,3 +137,50 @@ if __name__=="__main__":
   print("Texto descifrado:", texto_desencriptado)
 ```
 #  Automatización de mensajes.
+```python
+import smtplib
+import random
+import time
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+#Función para enviar un correo a través de Gmail con esos datos.
+def enviar_correo_gmail(destinatario, asunto, mensaje, remitente, contraseña):
+    #Conexión al servidor SMTP de Gmail (587 es el puerto para ejecutar el código)
+    servidor = smtplib.SMTP('smtp.gmail.com', 587)
+    #Establece una conexión con el servidor.
+    servidor.starttls()
+    # Inicia sesión al servidor usando los datos proporcionados en la casilla de remitente y contraseña.
+    servidor.login(remitente, contraseña)
+    
+		#Crea el mensaje de correo
+    correo = MIMEMultipart()
+    correo['From'] = remitente
+    correo['To'] = destinatario
+    correo['Subject'] = asunto
+    correo.attach(MIMEText(mensaje, 'plain'))
+    #Envía el mensaje
+    servidor.send_message(correo)
+    #Finaliza su conexión con el servidor.
+    servidor.quit()
+
+if __name__ == "__main__":
+    #Definen diferentes casillas
+    remitente = ""
+    contraseña = ""
+    destinatario = ""
+    asunto = "Contraseña"
+    
+		#Intervalo en segundos para enviar el código.
+    intervalo = 500
+    #Bucle para enviar correos periodicamente de manera infinita.
+    while True:
+        #Genera un número aleatorio de 4 digitos, el cual va a ser nuestra contraseña.
+        num = random.randint(0, 9999)
+        #Crea el mensaje con la contraseña (Rellena para que si, por ejemplo es un número de 3 cifras ponga un 0 antes.)
+        mensaje = f"Tu contraseña es: {num:04d}"
+        #Llama a nuestra variable para enviar correos
+        enviar_correo_gmail(destinatario, asunto, mensaje, remitente, contraseña)
+        #Esperamos el intervalo (intervalo) para que se vuelva a enviar otro correo.
+        time.sleep(intervalo)
+```
