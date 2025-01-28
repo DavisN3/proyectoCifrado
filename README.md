@@ -7,6 +7,7 @@ Antes de ejecutar el código es necesario instalar las siguiente extensión.
 ### Pasos:
 1. Abrir "Símbolo de sistema".
 2. Copiar y pegar las siguiente extensión.
+
 **Ojo: Cuando se complete la instalación de una prosiga con la otra**
 **Extensión 1:**
 ```python
