@@ -12,3 +12,8 @@ Antes de ejecutar el código es necesario instalar las siguiente extensión.
 ```python
 pip install secure-smtplib
 ```
+# Código cifrado
+## Cifrado César
+### ¿En qué consiste?
+El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplzamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
+**Importante: No importa si la letra es mayúscula o minúscula.**
