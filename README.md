@@ -137,6 +137,7 @@ if __name__=="__main__":
   print("Texto descifrado:", texto_desencriptado)
 ```
 #  Automatización de mensajes.
+El código tiene como funcionalidad envíar un correo electrónico de manera periódica (automatizada) de manera alaeatoria generada cada vez que se ejecuta el código. Dicho proceso se ejecuta en un bucle infinito, el cual el mensaje cada que pase "intervalo" segundos se genera un nuevo número aleatorio y se vuelve a enviar al correo dicha contraseña. Esto gracias principalmente a la librería "email.mime" que permite lograr este tipo de programas.
 ```python
 import smtplib
 import random
