@@ -165,7 +165,7 @@ def enviar_correo_gmail(destinatario, asunto, mensaje, remitente, contraseña):
     servidor.quit()
 
 if __name__ == "__main__":
-    #Definen diferentes casillas
+    #Definen diferentes variables
     remitente = ""
     contraseña = ""
     destinatario = ""
