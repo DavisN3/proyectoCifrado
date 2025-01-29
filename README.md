@@ -17,7 +17,7 @@ Antes de ejecutar el código es necesario instalar las siguiente extensión.
 pip install secure-smtplib
 ```
 
-# Código cifrado
+# Cifrado ATEDv1
 
 ## Inspiracion en Cifrado César
 
