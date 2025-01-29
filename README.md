@@ -21,16 +21,16 @@ pip install secure-smtplib
 
 ## Inspiracion en Cifrado César
 
-### ¿En qué consiste?
+### ¿En qué consiste el cifrado cesar?
 El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplazamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
 
 ## Sitema de cifrado implementado en el proyecto:
-El sistema creado para el proyecto fue, como se menciona anteriormente, en el cifrado cesar, pero con la implementacion de unas reglas que amplian las posibilidades de combinacion las cuales serian las siguientes:
+El sistema creado para el proyecto fue, como se menciona anteriormente, inspirado en el cifrado cesar, pero con la implementacion de unas reglas que amplian sus posibilidades de combinacion, las cuales serian las siguientes:
 
 #### AD_DA: Orden del Alfabeto (se puede usar cualquier letra)
 En terminos simples si el alfabeto se tomara como una lista, cada letra tendria un indice, si el indice de la primera es menor al de la segunda, es AD en caso contrario es DA
 
-alpha_base = list("abcdefghijklmnopqrstuvwxyz")
+alpha_base = list("abcdefghijklmnopqrstuvwxyz") #26 indices de 0-25
 
 - AD: orden normal, cualquier letra que en orden alfabetico este antes y otra despues (eo, fg, xy, etc) "a" tomaria indice 0 aqui ejem
 - DA: orden inverso cualquier letra que en orden alfabetico este despues y otra anterior a esa misma (oe, gf, xy)  "a" tomaria indice 25 aqui ejem
