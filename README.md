@@ -288,17 +288,6 @@ if __name__ == "__main__":
 Un servidor host es un sistema informático que proporciona datos a otros dispositivos llamados clientes dentro de una red. Su función principal es almacenar, procesar y gestionar la comunicación entre dispositivos permitiendo la interacción, por ejemplo, con un microcontrolador.
 ¿Cómo funcionan?
 Cada servidor host tiene una dirección IP única que lo identifica dentro de la red y utiliza protocolos de comunicación (como HTTP, MQTT, TCP/IP) para recibir y procesar solicitudes (datos) de los clientes.
-## Desarrollo del esquema para la lectura de datos:
-La implementación del cifrado permitirá establecer comunicación entre el microcontrolador, quién será el encargado de tomar la lectura de datos como la Intensidad de Corriente y la Tensión además de calcular el consumo energético de una carga conectada a la red eléctrica en un intervalo de tiempo especificado por el usuario, y el servidor, quién será el encargado de analizar los datos suministrados por el microcontrolador y ejecutar una acción determinada como regular la potencia eléctrica de la carga o desconectarla de la red.
-
-Será de vital esencia las siguientes referencias de componentes:
-+ **Raspberry PI 5** 
-+ **Sensor de Corriente ACS712 - 20A**
-+ **Sensor de Voltaje ZMPT101B**
-
-Los sensores son compatibles con el lenguaje de programación de la Raspberry PI 5 (Python).
-El siguiente diagrama presenta la distribución general de los componentes dentro del circuito y los procesos que se llevarán a cabo.
-[![funcional.jpg](https://i.postimg.cc/pTMr57zc/funcional.jpg)](https://postimg.cc/FfGN2TP0)
 
 ### Fuentes de consulta
 Como extra se agrega que una de las principales fuentes de consulta fue [stock overflow](https://stackoverflow.com) en especial para lo que fue la biblioteca socket, [w3](https://www.w3schools.com) para la biblioteca **random** y ademas del repositorio de la clase 13 para guiarnos con algunas funciones [Github](https://github.com/fegonzalez7/pdc_unal_clase13)
