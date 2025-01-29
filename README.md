@@ -284,6 +284,10 @@ if __name__ == "__main__":
         cifrado1(num)
         time.sleep(intervalo)
 ```
+## Servidores
+Un servidor host es un sistema informático que proporciona datos a otros dispositivos llamados clientes dentro de una red. Su función principal es almacenar, procesar y gestionar la comunicación entre dispositivos permitiendo la interacción, por ejemplo, con un microcontrolador.
+¿Cómo funcionan?
+Cada servidor host tiene una dirección IP única que lo identifica dentro de la red y utiliza protocolos de comunicación (como HTTP, MQTT, TCP/IP) para recibir y procesar solicitudes (datos) de los clientes.
 ## Desarrollo del esquema para la lectura de datos:
 La implementación del cifrado permitirá establecer comunicación entre el microcontrolador, quién será el encargado de tomar la lectura de datos como la Intensidad de Corriente y la Tensión además de calcular el consumo energético de una carga conectada a la red eléctrica en un intervalo de tiempo especificado por el usuario, y el servidor, quién será el encargado de analizar los datos suministrados por el microcontrolador y ejecutar una acción determinada como regular la potencia eléctrica de la carga o desconectarla de la red.
 
