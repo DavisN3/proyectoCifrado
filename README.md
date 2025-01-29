@@ -295,3 +295,6 @@ Será de vital esencia las siguientes referencias de componentes:
 Los sensores son compatibles con el lenguaje de programación de la Raspberry PI 5 (Python).
 El siguiente diagrama presenta la distribución general de los componentes dentro del circuito y los procesos que se llevarán a cabo.
 [![funcional.jpg](https://i.postimg.cc/pTMr57zc/funcional.jpg)](https://postimg.cc/FfGN2TP0)
+
+### Fuentes de consulta
+Como extra se agrega que una de las principales fuentes de consulta fue [stock overflow](https://stackoverflow.com) en especial para lo que fue la biblioteca socket, [w3](https://www.w3schools.com) para la biblioteca **random** y ademas del repositorio de la clase 13 para guiarnos con algunas funciones [Github](https://github.com/fegonzalez7/pdc_unal_clase13)
