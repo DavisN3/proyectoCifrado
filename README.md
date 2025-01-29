@@ -19,13 +19,13 @@ pip install secure-smtplib
 
 # Código cifrado
 
-## Cifrado César
+## Inspiracion en Cifrado César
 
 ### ¿En qué consiste?
-El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplzamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
-**Importante: No importa si la letra es mayúscula o minúscula.**
+El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplazamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
 
 ## Sitema de cifrado implementado en el proyecto:
+El sistema creado para el proyecto fue, como se menciona anteriormente, en el cifrado cesar, pero con la implementacion de unas reglas que amplian las posibilidades de combinacion las cuales serian las siguientes:
 
 #### AD_DA: Orden del Alfabeto (se puede usar cualquier letra)
 En terminos simples si el alfabeto se tomara como una lista, cada letra tendria un indice, si el indice de la primera es menor al de la segunda, es AD en caso contrario es DA
@@ -144,6 +144,7 @@ if __name__=="__main__":
   print("Texto cifrado:", texto_cifrado[0]) 
   print("Texto descifrado:", texto_desencriptado)
 ```
+**Importante:** *Para mejor entendimiento de Salidas consulte el nootebook adjunto arriba**
 
 #  Automatización de mensajes (contraseña).
 El código tiene como funcionalidad envíar un correo electrónico de manera periódica (automatizada) de manera alaeatoria generada cada vez que se ejecuta el código. Dicho proceso se ejecuta en un bucle infinito, el cual el mensaje cada que pase "intervalo" segundos se genera un nuevo número aleatorio y se vuelve a enviar al correo dicha contraseña. Esto gracias principalmente a la librería "email.mime" que permite lograr este tipo de programas.
