@@ -144,7 +144,9 @@ if __name__=="__main__":
   print("Texto cifrado:", texto_cifrado[0]) 
   print("Texto descifrado:", texto_desencriptado)
 ```
-**Importante:** *Para mejor entendimiento de Salidas consulte el nootebook adjunto arriba**
+**Importante:** *Para mejor entendimiento de Salidas consulte el nootebook adjunto arriba*
+
+Si quiere probar independientemente alguna de las 2 funciones y/o ver versiones tempranas del codigo entre a: https://github.com/Felip-UN/ATEDx1
 
 #  Automatización de mensajes (contraseña).
 El código tiene como funcionalidad envíar un correo electrónico de manera periódica (automatizada) de manera alaeatoria generada cada vez que se ejecuta el código. Dicho proceso se ejecuta en un bucle infinito, el cual el mensaje cada que pase "intervalo" segundos se genera un nuevo número aleatorio y se vuelve a enviar al correo dicha contraseña. Esto gracias principalmente a la librería "email.mime" que permite lograr este tipo de programas.
@@ -199,6 +201,7 @@ if __name__ == "__main__":
 
 # Combinación de la contraseña y el proceso de automatización de la contraseña.
 
+EL prososito del siguiente programa es poder probar salidas de correo con una version temprana del cifrado (hay errores de indentado en una funcion definida por problemas de copiado desde otro repositorio)
 ```python
 import smtplib
 import random
