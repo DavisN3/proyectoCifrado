@@ -281,7 +281,7 @@ if __name__ == "__main__":
         cifrado1(num)
         time.sleep(intervalo)
 ```
-## Desarrollo del esquema electrónico para la lectura de datos:
+## Desarrollo del esquema para la lectura de datos:
 La implementación del cifrado permitirá establecer comunicación entre el microcontrolador, quién será el encargado de tomar la lectura de datos como la Intensidad de Corriente y la Tensión además de calcular el consumo energético de una carga conectada a la red eléctrica en un intervalo de tiempo especificado por el usuario, y el servidor, quién será el encargado de analizar los datos suministrados por el microcontrolador y ejecutar una acción determinada como regular la potencia eléctrica de la carga o desconectarla de la red.
 
 Será de vital esencia las siguientes referencias de componentes:
