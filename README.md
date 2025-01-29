@@ -4,7 +4,7 @@ En el presente repositorio encontraran los avances preliminares al desarrollo de
 
 
 # ¿En qué consiste el S.I.C.R.A?
-Este proyecto consiste en la implementación de un sistema de cifrado personalizado basado en el cifrado César. Su objetivo es permitir que los mensajes sean cifrados y enviados a través de un chat, de modo que el receptor pueda descifrar el contenido solo si tiene la contraseña, la cual será enviada al ejecutarse el código por correo electrónico, con el agregado de que es una contraseña temporal y cambia cada "num" segundos.
+(Siglas para Sistema Integrado de Cifrado Remoto ATEDv1) El proyecto consiste en la implementación de un sistema de cifrado personalizado basado en el cifrado César. Su objetivo es permitir que los mensajes sean cifrados y enviados a través de un chat, de modo que el receptor pueda descifrar el contenido solo si tiene la contraseña, la cual será enviada al ejecutarse el código por correo electrónico, con el agregado de que es una contraseña temporal y cambia cada "num" segundos.
 
 ## Extensiones preliminares
 Antes de ejecutar el código es necesario instalar las siguiente extensión.
