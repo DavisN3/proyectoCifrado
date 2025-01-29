@@ -281,3 +281,14 @@ if __name__ == "__main__":
         cifrado1(num)
         time.sleep(intervalo)
 ```
+## Desarrollo del esquema electrónico para la lectura de datos:
+La implementación del cifrado permitirá establecer comunicación entre el microcontrolador, quién será el encargado de tomar la lectura de datos como la Intensidad de Corriente y la Tensión además de calcular el consumo energético de una carga conectada a la red eléctrica en un intervalo de tiempo especificado por el usuario, y el servidor, quién será el encargado de analizar los datos suministrados por el microcontrolador y ejecutar una acción determinada como regular la potencia eléctrica de la carga o desconectarla de la red.
+
+Será de vital esencia las siguientes referencias de componentes:
++ **Raspberry PI 5** 
++ **Sensor de Corriente ACS712 - 20A**
++ **Sensor de Voltaje ZMPT101B**
+
+Los sensores son compatibles con el lenguaje de programación de la Raspberry PI 5 (Python).
+El siguiente diagrama presenta la distribución general de los componentes dentro del circuito y los procesos que se llevarán a cabo.
+[![funcional.jpg](https://i.postimg.cc/pTMr57zc/funcional.jpg)](https://postimg.cc/FfGN2TP0)
