@@ -6,7 +6,8 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 - [Servidor / Cliente](#servidor--cliente)
   - [Comunicación cliente / servidor.](#comunicación-cliente--servidor)
   - [Servidor](#servidor)
-    - [Versión inicial "Chat Cliente" - Conexión servidor](#version-inicial-chat-cliente---conexion-servidor)
+    - [Versión inicial Chat Cliente - Conexión servidor](#versión-inicial-chat-cliente---conexión-servidor)
+
 
 
 ## Introducción
@@ -22,7 +23,7 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 - Emplea el uso de "Socket" para aceptar conexiones y "Threading" para gestionar de manera efectiva las peticiones que se realizan.
 - Recibe los mensajes cifrados, los envía y a la vez los descodifica.
 
-#### Versión inicial "Chat Cliente" - Conexión servidor.
+#### Versión inicial Chat Cliente - Conexión servidor.
 ```python
 import socket   
 import threading
