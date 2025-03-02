@@ -243,6 +243,51 @@ if __name__=="__main__":
   print("Reglas guardadas: ",str(salida[pos]+salida[pos+1]+salida[pos+2]),) #Esta salida debe ser igual a la de la funcion
   print("Orden: ", (salida[pos]+salida[pos+1]),"interpretarlo frente a lo dicho en el documento")
 ```
+#### Diagrama de flujo de la funcion definida
+
+```mermaid
+flowchart TD
+    A("Inicio") --> n2["Desplazamiento= Numero random: 1-25"]
+    n2 --> n3["Orden= Elecion random entre AD y DA"]
+    n3 --> n4["A=Una letra random entre a y y<br>B=Una letra Random entre A y z"]
+    n4 --> n5["Si Orden == AD"] & n6["Si Orden == DA"]
+    n5 --> n7["Alfa = Alfabeto base<br>Y se Guardara AD_DA= cadena de A y D"]
+    n6 --> n8["Alfa = Alfabeto inverso<br>Y se Guardara AD_DA = cadena de D y A"]
+    n7 --> n9["Alfabeto = Alfa"]
+    n8 --> n9
+    n9 --> n10["Se crea una lista vacia donde se guardaran los caracteres<br>texto_cifrado=[]"]
+    n10 --> n11["Por cada caracter de la cadena se repite:<br>Quedan caracteres que iterar?"]
+    n11 -- Si --> n12["El caracter es una letra que pertenece al alfabeto?"]
+    n12 -- Si --> n13@{ label: "<div style=\"color:\"><span style=\"color:\">Convertimos la letra a minúscula para simplificar</span></div>" }
+    n13 --> n14@{ label: "<div style=\"color:\"><span style=\"color:\">Encontramos el indice de la letra en el alfabeto que tengamos</span></div>" }
+    n14 --> n15@{ label: "<div style=\"color:\"><span style=\"color:\">Desplazamos la letra, usando módulo para que se mantenga dentro del rango:<br>nuevo indice = indice + desplazamiento % 26</span></div>" }
+    n15 --> n16["El nuevo caracter sera el la letra del alfabeto que tenga el nuevo indice"]
+    n16 --> n17["Era mayuscula la letra?"]
+    n17 -- Si --> n18["Nuevo caracter = caracter en mayuscula"]
+    n18 --> n19["Agregamos el nuevo caracter a la lista previamente definida<br>texto_cifrado.append(nuevo caracter)"]
+    n17 -- No --> n19
+    n12 -- No --> n20["Agregamos el caracter sin modificarlo a la lista previamente definida<br>texto_cifrado.append(caracter sin modificar)"]
+    n11 -- No --> n21["Xn sera el mismo desplazamiento<br>Xn=desplazamiento"]
+    n21 --> n22["poscision donde se guardaran las reglas= numero aleatoreo entre 0 y la longitud de la cadena original"]
+    n22 --> n23["DX (la subcadena con las reglas de desencriptado) <br>sera = AD_DA + poscion de guardado"]
+    n23 --> n24["Insertamos DX en la lista texto_cifrado"]
+    n24 --> n25["Transformamos la lista texto_cifrado en una cadena de caracteres"]
+    n25 --> n26["Creamos una tupla con las salidas del programa (Texto cifrado, poscicion de las reglas)"]
+    n26 --> n27["retornamos salidas como salida del programa"]
+    n27 --> n28["End"]
+    n19 --> n11
+    n20 --> n11
+
+    n5@{ shape: diam}
+    n6@{ shape: diam}
+    n11@{ shape: diam}
+    n12@{ shape: diam}
+    n13@{ shape: rect}
+    n14@{ shape: rect}
+    n15@{ shape: rect}
+    n17@{ shape: diam}
+    n28@{ shape: rounded}
+```
 #### Sistema de desencriptado
 ```python
 alpha_base = list("abcdefghijklmnopqrstuvwxyz") #Alfabeto estandar
