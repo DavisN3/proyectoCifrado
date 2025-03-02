@@ -421,6 +421,11 @@ def recibir_conexiones():
 # Inicia la recepción de conexiones
 recibir_conexiones()
 ```
+#### Explicación de las funciones
+1. difundir(mensaje, cliente_excluido)
+2. def descifrar_mensaje(mensaje_cifrado, posicion)
+3. def manejar_mensajes(cliente)
+4. def recibir_conexiones()
 ### Usuario integrado
 ```python
 import socket
