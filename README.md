@@ -3,7 +3,7 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 
 ## Índice
 - [Introducción](#introducción)
-- [Servidor / Cliente](Servidor-/-Cliente)
+- [Servidor / Cliente](#Servidor-/-Cliente)
 
 ## Introducción
 ### ¿En qué consiste el S.I.C.R.A?
