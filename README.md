@@ -2,7 +2,7 @@
 En este repositorio se encuentra la información sintetizada y el desarrollo funcional del proyecto final para la materia de Programación Básica
 
 ## Índice
-- [Introducción](introducción)
+- [Introducción](#introducción)
 
 ## Introducción
 ## ¿En qué consiste el S.I.C.R.A?
