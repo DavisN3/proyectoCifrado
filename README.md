@@ -17,6 +17,10 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
      - [Sistema de encriptado](#sistema-de-encriptado)
      - [Sistema de desencriptado](#sistema-de-desencriptado)
 - [Integración S.I.C.R.A](#integración-sicra)
+  - [Servidor integrado](#servidor-integrado)
+    - [Explicación de las funciones 1](#explicación-de-las-funciones-1)
+  - [Usuario integrado](#usuario-integrado)
+    - [Explicación de las funciones 2](#explicación-de-las-funciones-2)
 
 ## Introducción
 ### ¿En qué consiste el proyecto S.I.C.R.A?
@@ -421,7 +425,7 @@ def recibir_conexiones():
 # Inicia la recepción de conexiones
 recibir_conexiones()
 ```
-#### Explicación de las funciones
+#### Explicación de las funciones 1
 1. difundir(mensaje, cliente_excluido)
 Enviar el mensaje a todos los clientes, menos a quien lo ha enviado.
 
@@ -619,7 +623,7 @@ def escribir_mensajes():
 threading.Thread(target=recibir_mensajes).start()
 threading.Thread(target=escribir_mensajes).start()
 ```
-#### Explicación de las funciones
+#### Explicación de las funciones 2
 1. def recibir_mensajes()
 Escucha los mensajes enviados desde el servidor y los procesa.
 
