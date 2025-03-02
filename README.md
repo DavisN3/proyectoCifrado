@@ -20,55 +20,65 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 
 #### Versión prematura de servidor:
 ```python
-import socket   
+import socket
 import threading
 
 # Alfabeto estándar en minúsculas
-base_alfabeto = list("abcdefghijklmnopqrstuvwxyz")  
+BASE_ALFABETO = list("abcdefghijklmnopqrstuvwxyz")
 
 # Dirección y puerto del servidor
-host = '127.0.0.1'  # Dirección local (localhost)
-puerto = 55555  
+HOST = '127.0.0.1'  # Dirección local (localhost)
+PUERTO = 55555
 
 # Creación del socket del servidor
 servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Vinculación del servidor a la dirección y puerto
-servidor.bind((host, puerto))
+servidor.bind((HOST, PUERTO))
 servidor.listen()
 
-print(f"Servidor en ejecución en {host}:{puerto}")
+print(f"Servidor en ejecución en {HOST}:{PUERTO}")
 
 # Listas para almacenar clientes conectados y sus nombres de usuario
 clientes = []
 usuarios = []
 
-# Función para enviar mensajes a todos los clientes excepto al remitente
-def transmitir(mensaje, _cliente):
+
+def transmitir(mensaje, cliente_excluido):
+    """
+    Envía un mensaje a todos los clientes conectados, excepto al remitente.
+    """
     for cliente in clientes:
-        if cliente != _cliente:
+        if cliente != cliente_excluido:
             cliente.send(mensaje)
 
-# Función para manejar los mensajes entrantes de un cliente
+
 def manejar_mensajes(cliente):
+    """
+    Maneja los mensajes entrantes de un cliente y los retransmite a los demás.
+    Si el cliente se desconecta, lo elimina de la lista.
+    """
     while True:
         try:
-            # Recibir mensaje del cliente
             mensaje = cliente.recv(1024)
-            # Enviar el mensaje a los demás clientes
             transmitir(mensaje, cliente)
-        except:
-            # Si hay un error (cliente desconectado), eliminarlo de las listas
+        except (ConnectionResetError, ConnectionAbortedError):
             indice = clientes.index(cliente)
             usuario = usuarios[indice]
-            transmitir(f"Servidor: {usuario} se ha desconectado".encode('utf-8'), cliente)
+            transmitir(
+                f"ChatBot: {usuario} se ha desconectado".encode('utf-8'),
+                cliente
+            )
             clientes.remove(cliente)
             usuarios.remove(usuario)
             cliente.close()
             break
 
-# Función para aceptar y gestionar nuevas conexiones de clientes
+
 def recibir_conexiones():
+    """
+    Acepta nuevas conexiones de clientes y maneja su comunicación.
+    """
     while True:
         cliente, direccion = servidor.accept()
 
@@ -83,7 +93,7 @@ def recibir_conexiones():
         print(f"{usuario} se ha conectado desde {str(direccion)}")
 
         # Notificar a los demás clientes que un nuevo usuario se ha unido
-        mensaje = f"Servidor: {usuario} se ha unido al chat!".encode("utf-8")
+        mensaje = f"ChatBot: {usuario} se ha unido al chat!".encode("utf-8")
         transmitir(mensaje, cliente)
         cliente.send("Conectado al servidor".encode("utf-8"))
 
@@ -91,9 +101,9 @@ def recibir_conexiones():
         hilo = threading.Thread(target=manejar_mensajes, args=(cliente,))
         hilo.start()
 
+
 # Iniciar la función para aceptar conexiones
 recibir_conexiones()
-
 ```
 
 ### Cliente
