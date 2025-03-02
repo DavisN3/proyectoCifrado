@@ -423,9 +423,50 @@ recibir_conexiones()
 ```
 #### Explicación de las funciones
 1. difundir(mensaje, cliente_excluido)
-2. def descifrar_mensaje(mensaje_cifrado, posicion)
-3. def manejar_mensajes(cliente)
-4. def recibir_conexiones()
+   ```python
+   def difundir(mensaje, cliente_excluido):
+    for cliente in clientes:
+        if cliente != cliente_excluido:
+            cliente.send(mensaje)
+
+   ```
+2.  def descifrar_mensaje(mensaje_cifrado, posicion)
+   ```python
+def descifrar_mensaje(mensaje_cifrado, posicion):
+    reglas = mensaje_cifrado[posicion:posicion+3]
+    lista_mensaje = list(mensaje_cifrado)
+    for _ in range(3):
+        lista_mensaje.pop(posicion)
+    mensaje_sin_reglas = ''.join(lista_mensaje)
+    
+    letra1 = alfabeto.index(reglas[0])
+    letra2 = alfabeto.index(reglas[1])
+    desplazamiento = alfabeto.index(reglas[2])
+    
+    if letra1 < letra2:
+        orden = "AD"
+    else:
+        orden = "DA"
+    
+    alfabeto_usado = alfabeto if orden == "AD" else list("zyxwvutsrqponmlkjihgfedcbaúóíéá")
+    
+    texto_descifrado = []
+    for caracter in mensaje_sin_reglas:
+        if caracter.isalpha():
+            caracter_minus = caracter.lower()
+            indice = alfabeto_usado.index(caracter_minus)
+            nuevo_indice = (indice - desplazamiento) % 26
+            nuevo_caracter = alfabeto_usado[nuevo_indice]
+            if caracter.isupper():
+                nuevo_caracter = nuevo_caracter.upper()
+            texto_descifrado.append(nuevo_caracter)
+        else:
+            texto_descifrado.append(caracter)
+    
+    return ''.join(texto_descifrado)
+```
+5. def manejar_mensajes(cliente)
+6. def recibir_conexiones()
 ### Usuario integrado
 ```python
 import socket
