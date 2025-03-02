@@ -18,11 +18,6 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 - Emplea el uso de "Socket" para aceptar conexiones y "Threading" para gestionar de manera efectiva las peticiones que se realizan.
 - Recibe los mensajes cifrados, los envía y a la vez los descodifica.
 
-### Cliente
-- Se conecta al servidor usando "TCP".
-- Cifra los mensajes antes de enviar algún mensaje.
-- Maneja la codificación "UTF-8" para la transmisión de información con el servidor.
-
 #### Versión prematura de servidor:
 ```python
 import socket   
@@ -66,7 +61,7 @@ def manejar_mensajes(cliente):
             # Si hay un error (cliente desconectado), eliminarlo de las listas
             indice = clientes.index(cliente)
             usuario = usuarios[indice]
-            transmitir(f"ChatBot: {usuario} se ha desconectado".encode('utf-8'), cliente)
+            transmitir(f"Servidor: {usuario} se ha desconectado".encode('utf-8'), cliente)
             clientes.remove(cliente)
             usuarios.remove(usuario)
             cliente.close()
@@ -88,7 +83,7 @@ def recibir_conexiones():
         print(f"{usuario} se ha conectado desde {str(direccion)}")
 
         # Notificar a los demás clientes que un nuevo usuario se ha unido
-        mensaje = f"ChatBot: {usuario} se ha unido al chat!".encode("utf-8")
+        mensaje = f"Servidor: {usuario} se ha unido al chat!".encode("utf-8")
         transmitir(mensaje, cliente)
         cliente.send("Conectado al servidor".encode("utf-8"))
 
@@ -100,6 +95,12 @@ def recibir_conexiones():
 recibir_conexiones()
 
 ```
+
+### Cliente
+- Se conecta al servidor usando "TCP".
+- Cifra los mensajes antes de enviar algún mensaje.
+- Maneja la codificación "UTF-8" para la transmisión de información con el servidor.
+
 # Cifrado ATEDv1
 
 ## Inspiracion en Cifrado César
