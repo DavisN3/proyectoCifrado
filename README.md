@@ -18,6 +18,7 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 - Emplea el uso de "Socket" para aceptar conexiones y "Threading" para gestionar de manera efectiva las peticiones que se realizan.
 - Recibe los mensajes cifrados, los envía y a la vez los descodifica.
 
+#### Versión inicial "Chat Cliente" - Conexión servidor.
 ```python
 import socket   
 import threading
@@ -99,6 +100,49 @@ recibir_conexiones()
 - Se conecta al servidor usando "TCP".
 - Cifra los mensajes antes de enviar algún mensaje.
 - Maneja la codificación "UTF-8" para la transmisión de información con el servidor.
+
+#### Versión inicial "Chat Cliente" - Conexión cliente.
+```python
+import socket
+import threading
+import builtins
+
+# Solicita el nombre de usuario mediante la función original input
+usuario = builtins.input("Ingrese su nombre de usuario: ")
+
+host = '127.0.0.1'
+puerto = 55555
+
+# Configuración del socket del cliente
+cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+cliente.connect((host, puerto))
+
+# Función para recibir mensajes enviados por el servidor
+def recibir_mensajes():
+    while True:
+        try:
+            mensaje = cliente.recv(1024).decode('utf-8')
+            if mensaje == "@username":
+                cliente.send(usuario.encode('utf-8'))
+            else:
+                # Imprime el mensaje recibido con saltos de línea para mayor legibilidad
+                print("\n" + mensaje + "\n")
+        except Exception as error:
+            print("\nError:", error)
+            cliente.close()
+            break
+
+
+# Función para enviar mensajes al servidor
+def escribir_mensajes():
+    while True:
+        mensaje = f"{usuario}: {input('')}"
+        cliente.send(mensaje.encode('utf-8'))
+
+# Inicia los hilos para recibir y enviar mensajes
+threading.Thread(target=recibir_mensajes).start()
+threading.Thread(target=escribir_mensajes).start()
+```
 
 ## Cifrado ATEDv1
 
