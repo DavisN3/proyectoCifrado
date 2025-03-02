@@ -6,7 +6,8 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 - [Servidor / Cliente](#servidor--cliente)
   - [Comunicación cliente / servidor.](#comunicación-cliente--servidor)
   - [Servidor](#servidor)
-    - [Versión inicial "Chat Cliente" - Conexión servidor.](#version-inicial-"chat-cliente"--conexion-servidor)
+    - [Versión inicial "Chat Cliente" - Conexión servidor](#version-inicial-chat-cliente---conexion-servidor)
+
 
 ## Introducción
 ### ¿En qué consiste el S.I.C.R.A?
