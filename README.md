@@ -66,7 +66,7 @@ def manejar_mensajes(cliente):
             indice = clientes.index(cliente)
             usuario = usuarios[indice]
             transmitir(
-                f"ChatBot: {usuario} se ha desconectado".encode('utf-8'),
+                f"Servidor: {usuario} se ha desconectado".encode('utf-8'),
                 cliente
             )
             clientes.remove(cliente)
@@ -93,7 +93,7 @@ def recibir_conexiones():
         print(f"{usuario} se ha conectado desde {str(direccion)}")
 
         # Notificar a los demás clientes que un nuevo usuario se ha unido
-        mensaje = f"ChatBot: {usuario} se ha unido al chat!".encode("utf-8")
+        mensaje = f"Servidor: {usuario} se ha unido al chat!".encode("utf-8")
         transmitir(mensaje, cliente)
         cliente.send("Conectado al servidor".encode("utf-8"))
 
