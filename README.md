@@ -3,20 +3,13 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 
 ## Índice
 - [Introducción](#introducción)
+- [Servidor - Cliente](Servidor---Cliente)
 
 ## Introducción
 ### ¿En qué consiste el S.I.C.R.A?
 S.I.C.R.A es un sistema de cifrado personalizado basado en el cifrado César, diseñado de tal manera para proteger mensajes en un chat. Utiliza socket para conexiones TCP y threading para la concurrencia, permitiendo el envío y recepción de mensajes en tiempo real. La seguridad se refuerza con un desplazamiento aleatorio y reglas de cifrado que permiten su descifrado en el servidor.
 
-Antes de ejecutar el código es necesario instalar las siguiente extensión.
-### Pasos:
-1. Abrir "Símbolo de sistema".
-2. Copiar y pegar las siguiente extensión.
-
-**Extensión 1:**
-```python
-pip install secure-smtplib
-```
+## Servidor - Cliente
 
 # Cifrado ATEDv1
 
