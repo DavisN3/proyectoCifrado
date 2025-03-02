@@ -423,7 +423,8 @@ recibir_conexiones()
 ```
 #### Explicación de las funciones
 1. difundir(mensaje, cliente_excluido)
-   
+Enviar el mensaje a todos los clientes, menos a quien lo ha enviado.
+
 ```python
 def difundir(mensaje, cliente_excluido):
     for cliente in clientes:
@@ -432,6 +433,7 @@ def difundir(mensaje, cliente_excluido):
    ```
 
 2.  def descifrar_mensaje(mensaje_cifrado, posicion)
+Recibe un mensaje cifrado el cual viene con una subcadena con las reglas de cifrado, extrae dichas reglas y elimina la subcadena (regla) y descifra el mensaje restando el desplazamiento indicado.
 
 ```python
 def descifrar_mensaje(mensaje_cifrado, posicion):
@@ -469,6 +471,7 @@ def descifrar_mensaje(mensaje_cifrado, posicion):
 ```
 
 3. def manejar_mensajes(cliente)
+Administra mensajes que provienen de un cliente.
 
 ```python
 def manejar_mensajes(cliente):
@@ -502,6 +505,8 @@ def manejar_mensajes(cliente):
             break
 ```
 4. def recibir_conexiones()
+Establece y acepta nuevas conexiones de clientes al servidor.
+
 ```python
 def recibir_conexiones():
     while True:
@@ -614,5 +619,87 @@ def escribir_mensajes():
 threading.Thread(target=recibir_mensajes).start()
 threading.Thread(target=escribir_mensajes).start()
 ```
+#### Explicación de las funciones
+1. def recibir_mensajes()
+Escucha los mensajes enviados desde el servidor y los procesa.
+
+```python
+def recibir_mensajes():
+    while True:
+        try:
+            mensaje = cliente.recv(1024).decode('utf-8')
+            if mensaje == "@username":
+                cliente.send(usuario.encode('utf-8'))
+            else:
+                print("\n" + mensaje + "\n")
+        except Exception as error:
+            print("\nError:", error)
+            cliente.close()
+            break
+```
+
+2. def encriptar(mensaje)
+Cifra el mensaje desplazando aleatoriamente en el alfabeto y agrega una subcadena con las reglas de cifrado de la posición.
+
+```python
+def encriptar(mensaje):
+    desplazamiento = random.randint(1, 25)
+    orden = random.choice(["AD", "DA"])
+    A = random.randint(0, 23)
+    D = random.randint(A + 1, 25)
+    if orden == "AD":
+        alfabeto_usado = alfabeto
+        reglas = str(alfabeto[A]) + str(alfabeto[D])
+    else:
+        alfabeto_usado = list("zyxwvutsrqponmlkjihgfedcba")
+        reglas = str(alfabeto[D]) + str(alfabeto[A])
+    
+    texto_cifrado = []
+    for caracter in mensaje:
+        if caracter.isalpha():
+            caracter_minus = caracter.lower()
+            indice = alfabeto_usado.index(caracter_minus)
+            nuevo_indice = (indice + desplazamiento) % 26
+            nuevo_caracter = alfabeto_usado[nuevo_indice]
+            if caracter.isupper():
+                nuevo_caracter = nuevo_caracter.upper()
+            texto_cifrado.append(nuevo_caracter)
+        else:
+            texto_cifrado.append(caracter)
+    
+    Xn = alfabeto[desplazamiento]
+    posicion = random.randint(0, len(mensaje))
+    DX = reglas + Xn
+    texto_cifrado.insert(posicion, DX)
+    salida = ''.join(texto_cifrado)
+    return [salida, posicion]
+```
+
+3. entrada_original = builtins.input
+Modifica el ingreso del mensaje, para que se cifre antes de ser enviado al servidor.
+
+```python
+entrada_original = builtins.input
+def nueva_entrada(prompt=""):
+    texto = entrada_original(prompt)
+    if texto.strip():
+        resultado_cifrado = encriptar(texto)
+        return f"{resultado_cifrado[0]}||{resultado_cifrado[1]}"
+    else:
+        return texto
+
+builtins.input = nueva_entrada
+```
+
+4. def escribir_mensajes()
+Captura la entrada del usuario (cifrada) y lo envía al servidor.
+
+```python
+def escribir_mensajes():
+    while True:
+        mensaje = f"{usuario}: {input('')}"
+        cliente.send(mensaje.encode('utf-8'))
+```
+
 ## Fuentes de consulta
 Como extra se agrega que una de las principales fuentes de consulta fue [stock overflow](https://stackoverflow.com) en especial para lo que fue la biblioteca socket, [w3](https://www.w3schools.com) para la biblioteca **random** y ademas del repositorio de la clase 13 para guiarnos con algunas funciones [Github](https://github.com/fegonzalez7/pdc_unal_clase13)
