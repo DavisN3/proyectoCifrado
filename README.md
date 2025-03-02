@@ -1,5 +1,5 @@
 # Código de Schrodinger - Proyecto S.I.C.R.A
-En este repositorio se encuentra la información sintetizada y el desarrollo funcional del proyecto final para la materia de Programación Básica
+En este repositorio se encuentra la información sintetizada y el desarrollo funcional del proyecto final para la materia de Programación Básica.
 
 ## Índice
 - [Introducción](#introducción)
