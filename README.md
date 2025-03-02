@@ -243,12 +243,11 @@ if __name__=="__main__":
   print("Reglas guardadas: ",str(salida[pos]+salida[pos+1]+salida[pos+2]),) #Esta salida debe ser igual a la de la funcion
   print("Orden: ", (salida[pos]+salida[pos+1]),"interpretarlo frente a lo dicho en el documento")
 ```
-#### Diagrama de flujo de la funcion definida
+#### Diagrama de flujo de la funcion definida cifrado_atedv2
 
 ```mermaid
 flowchart TD
-    A("Inicio") --> n2["Desplazamiento= Numero random: 1-25"]
-    n2 --> n3["Orden= Elecion random entre AD y DA"]
+    n2["Desplazamiento= Numero random: 1-25"] --> n3["Orden= Elecion random entre AD y DA"]
     n3 --> n4["A=Una letra random entre a y y<br>B=Una letra Random entre A y z"]
     n4 --> n5["Si Orden == AD"] & n6["Si Orden == DA"]
     n5 --> n7["Alfa = Alfabeto base<br>Y se Guardara AD_DA= cadena de A y D"]
@@ -256,19 +255,19 @@ flowchart TD
     n7 --> n9["Alfabeto = Alfa"]
     n8 --> n9
     n9 --> n10["Se crea una lista vacia donde se guardaran los caracteres<br>texto_cifrado=[]"]
-    n10 --> n11["Por cada caracter de la cadena se repite:<br>Quedan caracteres que iterar?"]
+    n10 --> n11["Por cada caracter del texto original se repite:<br>Quedan caracteres que iterar?"]
     n11 -- Si --> n12["El caracter es una letra que pertenece al alfabeto?"]
     n12 -- Si --> n13@{ label: "<div style=\"color:\"><span style=\"color:\">Convertimos la letra a minúscula para simplificar</span></div>" }
     n13 --> n14@{ label: "<div style=\"color:\"><span style=\"color:\">Encontramos el indice de la letra en el alfabeto que tengamos</span></div>" }
     n14 --> n15@{ label: "<div style=\"color:\"><span style=\"color:\">Desplazamos la letra, usando módulo para que se mantenga dentro del rango:<br>nuevo indice = indice + desplazamiento % 26</span></div>" }
-    n15 --> n16["El nuevo caracter sera el la letra del alfabeto que tenga el nuevo indice"]
+    n15 --> n16["El nuevo caracter sera el de la letra del alfabeto que tenga el nuevo indice"]
     n16 --> n17["Era mayuscula la letra?"]
     n17 -- Si --> n18["Nuevo caracter = caracter en mayuscula"]
     n18 --> n19["Agregamos el nuevo caracter a la lista previamente definida<br>texto_cifrado.append(nuevo caracter)"]
     n17 -- No --> n19
     n12 -- No --> n20["Agregamos el caracter sin modificarlo a la lista previamente definida<br>texto_cifrado.append(caracter sin modificar)"]
     n11 -- No --> n21["Xn sera el mismo desplazamiento<br>Xn=desplazamiento"]
-    n21 --> n22["poscision donde se guardaran las reglas= numero aleatoreo entre 0 y la longitud de la cadena original"]
+    n21 --> n22["poscision donde se guardaran las reglas = numero aleatoreo entre 0 y la longitud de la cadena original"]
     n22 --> n23["DX (la subcadena con las reglas de desencriptado) <br>sera = AD_DA + poscion de guardado"]
     n23 --> n24["Insertamos DX en la lista texto_cifrado"]
     n24 --> n25["Transformamos la lista texto_cifrado en una cadena de caracteres"]
@@ -277,6 +276,8 @@ flowchart TD
     n27 --> n28["End"]
     n19 --> n11
     n20 --> n11
+    A("Inicio") --> n29["Valores de entrada: Texto original"]
+    n29 --> n2
 
     n5@{ shape: diam}
     n6@{ shape: diam}
@@ -343,6 +344,57 @@ if __name__=="__main__":
   print("\nTexto cifrado:", texto_cifrado)
   print("\nTexto desencriptado:", texto_desencriptado)
 ```
+#### Diagrama de flujo de la funcion definida des_atedv2
+``` mermaid
+flowchart TD
+    A("Inicio") --> n1["Valores de entrada: (texto cifrado, poscicion de las reglas [pos])"]
+    n1 --> n2["Reglas se definira como una tupla que contenga las letras con los indices [pos, pos+1 y pos+2] (seran 3 letras)"]
+    n2 --> n3["Convertimos el texto cifrado en una lista para una rapida modificacion"]
+    n3 --> n4["Se tomaran las primeras 2 letras de reglas para compararlas"]
+    n4 --> n5["Se transforma la 3ra letra en un numero tomando esa letra y viendo que indice tiene con respecto al alfabeto estandar"]
+    n7["La primera letra tiene un valor menor que a la segunda?"] -- Si --> n8["Orden = AD"]
+    n7 -- No --> n9["Orden = DA"]
+    n8 --> n10["for i in range 3<br>i&lt;3"]
+    n9 --> n10
+    n10 -- si --> n11["Remover la letra con indice [pos]"]
+    n10 -- No --> n12["Convetimos la lista en una cadena de caracteres"]
+    n11 --> n10
+    n12 --> n13["Consultamos el orden y definimos alfabeto"]
+    n13 --> n14["Orden==AD ?"]
+    n14 -- Si --> n15["Alfa = Alfabeto estandar"]
+    n14 -- No --> n16["Alfa = Alfabeto inverso"]
+    n15 --> n17["Alpha = Alfa"]
+    n16 --> n17
+    n17 --> n18["Creamos una lista donde se guardaran los nuevos caracteres: texto_descifrado[]"]
+    n18 --> n19["Por cada caracter del texto cifrado se repite:<br>Quedan caracteres que iterar?"]
+    n19 -- Si --> n20["El caracter es una letra que pertenece al alfabeto?"]
+    n20 -- Si --> n21["Convertimos la letra a minuscula para simplificar"]
+    n20 -- No --> n22["Agregamos el caracter sin modificarlo a la lista texto_descifrado.append[caracter]"]
+    n22 --> n20
+    n21 --> n23@{ label: "<div style=\"color:\"><span style=\"color:\">Encontramos el indice de la letra en el alfabeto</span></div>" }
+    n23 --> n24@{ label: "<div style=\"color:\"><span style=\"color:\">Desplazamos la letra, usando módulo para que se mantenga dentro del rango (A-Z)<br><br></span><div style=\"color:\"><span style=\"color:\">nuevo_indice = </span><span style=\"color:\">(</span><span style=\"color:\">indice - desplazamiento</span><span style=\"color:\">)</span><span style=\"color:\"> % </span><span style=\"color:\">26 restando el desplazamiento</span></div></div>" }
+    n24 --> n25["se define el nuevo caracter como la letra en el alfabeto que tenga el nuevo indice"]
+    n25 --> n26["El caracter original estaba en mayuscula?"]
+    n26 -- Si --> n27["Nuevo caracter = Caracter en mayuscula"]
+    n27 --> n28["Agregamos el nuevo carater a la lista texto_descifrado"]
+    n5 --> n7
+    n26 -- no --> n28
+    n19 -- No --> n29["Transformamos la lista con todos los caracteres en una cadena y la definimos como salida"]
+    n29 --> n30["Retornamos salida"]
+    n28 --> n19
+    n30 --> n31["End"]
+
+    n7@{ shape: diam}
+    n10@{ shape: diam}
+    n14@{ shape: diam}
+    n19@{ shape: diam}
+    n20@{ shape: diam}
+    n23@{ shape: rect}
+    n24@{ shape: rect}
+    n26@{ shape: diam}
+    n31@{ shape: rounded}
+```
+
 **Importante:** *Para mejor entendimiento de Salidas consulte el nootebook adjunto abajo*
 
 Si quiere probar independientemente alguna de las 2 funciones y/o ver versiones tempranas del codigo entre a: https://github.com/Felip-UN/ATEDx1
