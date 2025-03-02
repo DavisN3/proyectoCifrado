@@ -5,7 +5,7 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 - [Introducción](introducción)
 
 ## Introducción
-# ¿En qué consiste el S.I.C.R.A?
+## ¿En qué consiste el S.I.C.R.A?
 (Siglas para Sistema Integrado de Cifrado Remoto ATEDv1) El proyecto consiste en la implementación de un sistema de cifrado personalizado basado en el cifrado César. Su objetivo es permitir que los mensajes sean cifrados y enviados a través de un chat, de modo que el receptor pueda descifrar el contenido solo si tiene la contraseña, la cual será enviada al ejecutarse el código por correo electrónico, con el agregado de que es una contraseña temporal y cambia cada "num" segundos.
 
 ## Extensiones preliminares
