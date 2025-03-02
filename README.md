@@ -16,7 +16,8 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
      - [Sistema de reglas](#sistema-de-reglas)
      - [Sistema de encriptado](#sistema-de-encriptado)
      - [Sistema de desencriptado](#sistema-de-desencriptado)
-   
+- [Integración S.I.C.R.A](#integracion-sicra)
+
 ## Introducción
 ### ¿En qué consiste el proyecto S.I.C.R.A?
 S.I.C.R.A es un sistema de cifrado personalizado basado en el cifrado César, diseñado de tal manera para proteger mensajes en un chat. Utiliza socket para conexiones "TCP" y "Threading" para la concurrencia, permitiendo el envío y recepción de mensajes en tiempo real. La seguridad se refuerza con un desplazamiento aleatorio y reglas de cifrado que permiten su descifrado en el servidor.
@@ -292,11 +293,11 @@ if __name__=="__main__":
   print("\nTexto cifrado:", texto_cifrado)
   print("\nTexto desencriptado:", texto_desencriptado)
 ```
-**Importante:** *Para mejor entendimiento de Salidas consulte el nootebook adjunto arriba*
+**Importante:** *Para mejor entendimiento de Salidas consulte el nootebook adjunto abajo*
 
 Si quiere probar independientemente alguna de las 2 funciones y/o ver versiones tempranas del codigo entre a: https://github.com/Felip-UN/ATEDx1
 
-
+## Integración S.I.C.R.A
 
 ### Fuentes de consulta
 Como extra se agrega que una de las principales fuentes de consulta fue [stock overflow](https://stackoverflow.com) en especial para lo que fue la biblioteca socket, [w3](https://www.w3schools.com) para la biblioteca **random** y ademas del repositorio de la clase 13 para guiarnos con algunas funciones [Github](https://github.com/fegonzalez7/pdc_unal_clase13)
