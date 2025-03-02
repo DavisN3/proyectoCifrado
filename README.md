@@ -20,7 +20,7 @@ S.I.C.R.A es un sistema de cifrado personalizado basado en el cifrado César, di
 ### Comunicación cliente / servidor.
 El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" para la comunicación entre el cliente y el servidor usando el protocolo "TCP". El servidor actua como intermediario para que se realice la conexión de múltiples clientes y asegurando ue la transmisión de mensajes (cifrados y desifrados) se realice de manera efectiva.
 
-### Sevidor:
+### Servidor:
 - Se ejecuta en un localhost (o en una IP de un servidor), el cual escucha las peticiones que se realizan en un puerto determinado.
 - Emplea el uso de "Socket" para aceptar conexiones y "Threading" para gestionar de manera efectiva las peticiones que se realizan.
 - Recibe los mensajes cifrados, los envía y a la vez los descodifica.
