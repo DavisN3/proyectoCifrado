@@ -298,7 +298,225 @@ if __name__=="__main__":
 Si quiere probar independientemente alguna de las 2 funciones y/o ver versiones tempranas del codigo entre a: https://github.com/Felip-UN/ATEDx1
 
 ## Integración S.I.C.R.A
+### Servidor integrado.
+```python
+import socket
+import threading
 
+# Definición del alfabeto estándar (incluye vocales acentuadas)
+alfabeto = list("abcdefghijklmnopqrstuvwxyzáéíóú")
+host = '127.0.0.1'
+puerto = 55555
 
-### Fuentes de consulta
+# Configuración del socket del servidor
+servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+servidor.bind((host, puerto))
+servidor.listen()
+print(f"Servidor ejecutándose en {host}:{puerto}")
+
+# Listas para almacenar los clientes conectados y sus nombres de usuario
+clientes = []
+nombres_usuario = []
+
+# Función para difundir (enviar) un mensaje a todos los clientes, excepto al remitente
+def difundir(mensaje, cliente_excluido):
+    for cliente in clientes:
+        if cliente != cliente_excluido:
+            cliente.send(mensaje)
+
+# Función para descifrar un mensaje cifrado
+def descifrar_mensaje(mensaje_cifrado, posicion):
+    # Extrae las "reglas" (DX) que fueron insertadas en la posición 'posicion' (3 caracteres)
+    reglas = mensaje_cifrado[posicion:posicion+3]
+    # Convierte la cadena en lista para facilitar la eliminación de los caracteres de reglas
+    lista_mensaje = list(mensaje_cifrado)
+    for _ in range(3):
+        lista_mensaje.pop(posicion)
+    # Reconstruye la cadena sin las reglas insertadas
+    mensaje_sin_reglas = ''.join(lista_mensaje)
+    
+    # Se extraen los dos primeros caracteres y el tercero (que indica el desplazamiento)
+    letra1 = alfabeto.index(reglas[0])
+    letra2 = alfabeto.index(reglas[1])
+    desplazamiento = alfabeto.index(reglas[2])
+    
+    # Determina el orden del alfabeto usado:
+    # Si el índice del primer carácter es menor, se asume orden normal ("AD");
+    # de lo contrario, se usará el alfabeto invertido.
+    if letra1 < letra2:
+        orden = "AD"
+    else:
+        orden = "DA"
+    
+    # Selecciona el alfabeto a usar según el orden
+    alfabeto_usado = alfabeto if orden == "AD" else list("zyxwvutsrqponmlkjihgfedcbaúóíéá")
+    
+    # Descifra el mensaje restando el desplazamiento a cada letra
+    texto_descifrado = []
+    for caracter in mensaje_sin_reglas:
+        if caracter.isalpha():
+            caracter_minus = caracter.lower()
+            indice = alfabeto_usado.index(caracter_minus)
+            nuevo_indice = (indice - desplazamiento) % 26
+            nuevo_caracter = alfabeto_usado[nuevo_indice]
+            if caracter.isupper():
+                nuevo_caracter = nuevo_caracter.upper()
+            texto_descifrado.append(nuevo_caracter)
+        else:
+            texto_descifrado.append(caracter)
+    
+    return ''.join(texto_descifrado)
+
+# Función para manejar los mensajes recibidos de un cliente
+def manejar_mensajes(cliente):
+    while True:
+        try:
+            mensaje = cliente.recv(1024).decode('utf-8')
+            # Se espera que el mensaje tenga el formato:
+            # "usuario: <texto_cifrado>||<posicion>"
+            if "||" in mensaje:
+                try:
+                    usuario, resto = mensaje.split(":", 1)
+                    texto_cifrado, pos_str = resto.split("||", 1)
+                    posicion = int(pos_str.strip())
+                    # Se prepara la versión codificada (sin mostrar el delimitador ni la posición)
+                    mensaje_codificado = f"{usuario}:{texto_cifrado.strip()}"
+                    # Se descifra el mensaje usando la función definida
+                    mensaje_descifrado = descifrar_mensaje(texto_cifrado.strip(), posicion)
+                    mensaje_completo = (f"{mensaje_codificado}\n"
+                                        f"Mensaje Descifrado: {usuario}:{mensaje_descifrado}")
+                    print("\n" + mensaje_completo + "\n")
+                    # Difunde el mensaje completo a los demás clientes
+                    difundir(mensaje_completo.encode('utf-8'), cliente)
+                except Exception as error:
+                    print("\nError durante el descifrado:", error, "\n")
+                    difundir(mensaje.encode('utf-8'), cliente)
+            else:
+                print("\nMensaje recibido:", mensaje, "\n")
+                difundir(mensaje.encode('utf-8'), cliente)
+        except Exception as error:
+            indice = clientes.index(cliente)
+            usuario = nombres_usuario[indice]
+            difundir(f"ChatBot: {usuario} desconectado".encode('utf-8'), cliente)
+            clientes.remove(cliente)
+            nombres_usuario.remove(usuario)
+            cliente.close()
+            break
+
+# Función para recibir nuevas conexiones de clientes
+def recibir_conexiones():
+    while True:
+        cliente, direccion = servidor.accept()
+        cliente.send("@username".encode("utf-8"))
+        usuario = cliente.recv(1024).decode('utf-8')
+        clientes.append(cliente)
+        nombres_usuario.append(usuario)
+        print(f"{usuario} se ha conectado desde {direccion}")
+        mensaje_bienvenida = f"ChatBot: {usuario} se unió al chat!".encode("utf-8")
+        difundir(mensaje_bienvenida, cliente)
+        cliente.send("Conectado al servidor".encode("utf-8"))
+        hilo = threading.Thread(target=manejar_mensajes, args=(cliente,))
+        hilo.start()
+
+# Inicia la recepción de conexiones
+recibir_conexiones()
+```
+### Usuario integrado
+```python
+import socket
+import threading
+import random
+import builtins
+
+# Definición del alfabeto (incluye vocales acentuadas)
+alfabeto = list("abcdefghijklmnopqrstuvwxyzáéíóú")
+
+# Solicita el nombre de usuario mediante la función original input
+usuario = builtins.input("Ingrese su nombre de usuario: ")
+
+host = '127.0.0.1'
+puerto = 55555
+
+# Configuración del socket del cliente
+cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+cliente.connect((host, puerto))
+
+# Función para recibir mensajes enviados por el servidor
+def recibir_mensajes():
+    while True:
+        try:
+            mensaje = cliente.recv(1024).decode('utf-8')
+            if mensaje == "@username":
+                cliente.send(usuario.encode('utf-8'))
+            else:
+                # Imprime el mensaje recibido con saltos de línea para mayor legibilidad
+                print("\n" + mensaje + "\n")
+        except Exception as error:
+            print("\nError:", error)
+            cliente.close()
+            break
+
+# Función para cifrar un mensaje
+def encriptar(mensaje):
+    # Genera un desplazamiento aleatorio entre 1 y 25
+    desplazamiento = random.randint(1, 25)
+    # Selecciona aleatoriamente el orden del alfabeto ("AD" para orden normal, "DA" para invertido)
+    orden = random.choice(["AD", "DA"])
+    A = random.randint(0, 23)
+    D = random.randint(A + 1, 25)
+    if orden == "AD":
+        alfabeto_usado = alfabeto
+        reglas = str(alfabeto[A]) + str(alfabeto[D])
+    else:
+        alfabeto_usado = list("zyxwvutsrqponmlkjihgfedcba")
+        reglas = str(alfabeto[D]) + str(alfabeto[A])
+    
+    texto_cifrado = []
+    # Recorre cada carácter del mensaje para cifrarlo
+    for caracter in mensaje:
+        if caracter.isalpha():
+            caracter_minus = caracter.lower()
+            indice = alfabeto_usado.index(caracter_minus)
+            nuevo_indice = (indice + desplazamiento) % 26
+            nuevo_caracter = alfabeto_usado[nuevo_indice]
+            # Si el carácter original era mayúscula, se vuelve mayúscula
+            if caracter.isupper():
+                nuevo_caracter = nuevo_caracter.upper()
+            texto_cifrado.append(nuevo_caracter)
+        else:
+            texto_cifrado.append(caracter)
+    # Se obtiene un carácter del alfabeto correspondiente al desplazamiento
+    Xn = alfabeto[desplazamiento]
+    # Se elige aleatoriamente una posición para insertar las reglas de cifrado
+    posicion = random.randint(0, len(mensaje))
+    DX = reglas + Xn  # Las reglas de cifrado (información interna)
+    texto_cifrado.insert(posicion, DX)
+    salida = ''.join(texto_cifrado)
+    # Retorna el mensaje cifrado y la posición de inserción de las reglas, separados internamente por "||"
+    return [salida, posicion]
+
+# Se guarda la función original input y se redefine para enviar mensajes cifrados
+entrada_original = builtins.input
+def nueva_entrada(prompt=""):
+    texto = entrada_original(prompt)
+    if texto.strip():
+        resultado_cifrado = encriptar(texto)
+        return f"{resultado_cifrado[0]}||{resultado_cifrado[1]}"
+    else:
+        return texto
+
+builtins.input = nueva_entrada
+
+# Función para enviar mensajes al servidor
+def escribir_mensajes():
+    while True:
+        # La función input ya retorna el mensaje cifrado con "||" y la posición
+        mensaje = f"{usuario}: {input('')}"
+        cliente.send(mensaje.encode('utf-8'))
+
+# Inicia los hilos para recibir y enviar mensajes
+threading.Thread(target=recibir_mensajes).start()
+threading.Thread(target=escribir_mensajes).start()
+```
+## Fuentes de consulta
 Como extra se agrega que una de las principales fuentes de consulta fue [stock overflow](https://stackoverflow.com) en especial para lo que fue la biblioteca socket, [w3](https://www.w3schools.com) para la biblioteca **random** y ademas del repositorio de la clase 13 para guiarnos con algunas funciones [Github](https://github.com/fegonzalez7/pdc_unal_clase13)
