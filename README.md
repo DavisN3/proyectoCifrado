@@ -16,7 +16,7 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
      - [Sistema de reglas](#sistema-de-reglas)
      - [Sistema de encriptado](#sistema-de-encriptado)
      - [Sistema de desencriptado](#sistema-de-desencriptado)
-- [Integración S.I.C.R.A](#integracion-sicra)
+- [Integración S.I.C.R.A](#integración-sicra)
 
 ## Introducción
 ### ¿En qué consiste el proyecto S.I.C.R.A?
