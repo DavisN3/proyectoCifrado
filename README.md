@@ -299,5 +299,6 @@ Si quiere probar independientemente alguna de las 2 funciones y/o ver versiones 
 
 ## Integración S.I.C.R.A
 
+
 ### Fuentes de consulta
 Como extra se agrega que una de las principales fuentes de consulta fue [stock overflow](https://stackoverflow.com) en especial para lo que fue la biblioteca socket, [w3](https://www.w3schools.com) para la biblioteca **random** y ademas del repositorio de la clase 13 para guiarnos con algunas funciones [Github](https://github.com/fegonzalez7/pdc_unal_clase13)
