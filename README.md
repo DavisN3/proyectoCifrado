@@ -24,7 +24,7 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 - Maneja la codificación "UTF-8" para la transmisión de información con el servidor.
 
 #### Versión prematura de servidor:
-```
+```python
 import socket   
 import threading
 
