@@ -7,6 +7,8 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
   - [Comunicación cliente / servidor.](#comunicación-cliente--servidor)
   - [Servidor](#servidor)
     - [Versión inicial Chat Cliente - Conexión servidor](#versión-inicial-chat-cliente---conexión-servidor)
+  - [Cliente](#cliente)
+    - [Versión inicial Chat Cliente - Conexión cliente](#versión-inicial-chat-cliente---conexión-cliente)
 
 
 
@@ -106,7 +108,7 @@ recibir_conexiones()
 - Cifra los mensajes antes de enviar algún mensaje.
 - Maneja la codificación "UTF-8" para la transmisión de información con el servidor.
 
-#### Versión inicial "Chat Cliente" - Conexión cliente.
+#### Versión inicial Chat Cliente - Conexión cliente.
 ```python
 import socket
 import threading
