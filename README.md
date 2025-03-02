@@ -23,6 +23,83 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 - Cifra los mensajes antes de enviar algún mensaje.
 - Maneja la codificación "UTF-8" para la transmisión de información con el servidor.
 
+#### Versión prematura de servidor:
+```
+import socket   
+import threading
+
+# Alfabeto estándar en minúsculas
+base_alfabeto = list("abcdefghijklmnopqrstuvwxyz")  
+
+# Dirección y puerto del servidor
+host = '127.0.0.1'  # Dirección local (localhost)
+puerto = 55555  
+
+# Creación del socket del servidor
+servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Vinculación del servidor a la dirección y puerto
+servidor.bind((host, puerto))
+servidor.listen()
+
+print(f"Servidor en ejecución en {host}:{puerto}")
+
+# Listas para almacenar clientes conectados y sus nombres de usuario
+clientes = []
+usuarios = []
+
+# Función para enviar mensajes a todos los clientes excepto al remitente
+def transmitir(mensaje, _cliente):
+    for cliente in clientes:
+        if cliente != _cliente:
+            cliente.send(mensaje)
+
+# Función para manejar los mensajes entrantes de un cliente
+def manejar_mensajes(cliente):
+    while True:
+        try:
+            # Recibir mensaje del cliente
+            mensaje = cliente.recv(1024)
+            # Enviar el mensaje a los demás clientes
+            transmitir(mensaje, cliente)
+        except:
+            # Si hay un error (cliente desconectado), eliminarlo de las listas
+            indice = clientes.index(cliente)
+            usuario = usuarios[indice]
+            transmitir(f"ChatBot: {usuario} se ha desconectado".encode('utf-8'), cliente)
+            clientes.remove(cliente)
+            usuarios.remove(usuario)
+            cliente.close()
+            break
+
+# Función para aceptar y gestionar nuevas conexiones de clientes
+def recibir_conexiones():
+    while True:
+        cliente, direccion = servidor.accept()
+
+        # Solicitar nombre de usuario al cliente
+        cliente.send("@username".encode("utf-8"))
+        usuario = cliente.recv(1024).decode('utf-8')
+
+        # Almacenar cliente y nombre de usuario
+        clientes.append(cliente)
+        usuarios.append(usuario)
+
+        print(f"{usuario} se ha conectado desde {str(direccion)}")
+
+        # Notificar a los demás clientes que un nuevo usuario se ha unido
+        mensaje = f"ChatBot: {usuario} se ha unido al chat!".encode("utf-8")
+        transmitir(mensaje, cliente)
+        cliente.send("Conectado al servidor".encode("utf-8"))
+
+        # Iniciar un hilo para manejar los mensajes de este cliente
+        hilo = threading.Thread(target=manejar_mensajes, args=(cliente,))
+        hilo.start()
+
+# Iniciar la función para aceptar conexiones
+recibir_conexiones()
+
+```
 # Cifrado ATEDv1
 
 ## Inspiracion en Cifrado César
