@@ -423,15 +423,17 @@ recibir_conexiones()
 ```
 #### Explicación de las funciones
 1. difundir(mensaje, cliente_excluido)
-   ```python
-   def difundir(mensaje, cliente_excluido):
+   
+```python
+def difundir(mensaje, cliente_excluido):
     for cliente in clientes:
         if cliente != cliente_excluido:
             cliente.send(mensaje)
-
    ```
+
 2.  def descifrar_mensaje(mensaje_cifrado, posicion)
-   ```python
+
+```python
 def descifrar_mensaje(mensaje_cifrado, posicion):
     reglas = mensaje_cifrado[posicion:posicion+3]
     lista_mensaje = list(mensaje_cifrado)
@@ -465,8 +467,56 @@ def descifrar_mensaje(mensaje_cifrado, posicion):
     
     return ''.join(texto_descifrado)
 ```
-5. def manejar_mensajes(cliente)
-6. def recibir_conexiones()
+
+3. def manejar_mensajes(cliente)
+
+```python
+def manejar_mensajes(cliente):
+    while True:
+        try:
+            mensaje = cliente.recv(1024).decode('utf-8')
+            if "||" in mensaje:
+                try:
+                    usuario, resto = mensaje.split(":", 1)
+                    texto_cifrado, pos_str = resto.split("||", 1)
+                    posicion = int(pos_str.strip())
+                    mensaje_codificado = f"{usuario}:{texto_cifrado.strip()}"
+                    mensaje_descifrado = descifrar_mensaje(texto_cifrado.strip(), posicion)
+                    mensaje_completo = (f"{mensaje_codificado}\n"
+                                        f"Mensaje Descifrado: {usuario}:{mensaje_descifrado}")
+                    print("\n" + mensaje_completo + "\n")
+                    difundir(mensaje_completo.encode('utf-8'), cliente)
+                except Exception as error:
+                    print("\nError durante el descifrado:", error, "\n")
+                    difundir(mensaje.encode('utf-8'), cliente)
+            else:
+                print("\nMensaje recibido:", mensaje, "\n")
+                difundir(mensaje.encode('utf-8'), cliente)
+        except Exception as error:
+            indice = clientes.index(cliente)
+            usuario = nombres_usuario[indice]
+            difundir(f"ChatBot: {usuario} desconectado".encode('utf-8'), cliente)
+            clientes.remove(cliente)
+            nombres_usuario.remove(usuario)
+            cliente.close()
+            break
+```
+4. def recibir_conexiones()
+```python
+def recibir_conexiones():
+    while True:
+        cliente, direccion = servidor.accept()
+        cliente.send("@username".encode("utf-8"))
+        usuario = cliente.recv(1024).decode('utf-8')
+        clientes.append(cliente)
+        nombres_usuario.append(usuario)
+        print(f"{usuario} se ha conectado desde {direccion}")
+        mensaje_bienvenida = f"ChatBot: {usuario} se unió al chat!".encode("utf-8")
+        difundir(mensaje_bienvenida, cliente)
+        cliente.send("Conectado al servidor".encode("utf-8"))
+        hilo = threading.Thread(target=manejar_mensajes, args=(cliente,))
+        hilo.start()
+```
 ### Usuario integrado
 ```python
 import socket
