@@ -10,6 +10,12 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 S.I.C.R.A es un sistema de cifrado personalizado basado en el cifrado César, diseñado de tal manera para proteger mensajes en un chat. Utiliza socket para conexiones TCP y threading para la concurrencia, permitiendo el envío y recepción de mensajes en tiempo real. La seguridad se refuerza con un desplazamiento aleatorio y reglas de cifrado que permiten su descifrado en el servidor.
 
 ## Servidor / Cliente
+### Comunicación cliente / servidor.
+El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" para la comunicación entre eñ cliente y el servidor usando el protocolo TCP. El servidor actua como intermediario para que se realice la conexión de múltiples clientes y asegurando ue la transmisión de mensajes (cifrados y desifrados) se realice de manera efectiva.
+### Sevidor:
+- Se ejecuta en un localhost (o en una IP de un servidor), el cual escucha las peticiones que se realizan en un puerto determinado.
+- Emplea el uso de "Socket" para aceptar conexiones y "Threading" para gestionar de manera efectiva las peticiones que se realizan.
+- Recibe los mensajes cifrados y los envía.
 
 # Cifrado ATEDv1
 
