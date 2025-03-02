@@ -3,6 +3,7 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 
 ## Índice
 - [Introducción](#introducción)
+   - [¿En qué consiste el proyecto S.I.C.R.A?](#en-qué-consiste-el-proyecto-sicra)
 - [Servidor / Cliente](#servidor--cliente)
   - [Comunicación cliente / servidor.](#comunicación-cliente--servidor)
   - [Servidor](#servidor)
@@ -17,7 +18,7 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
      - [Sistema de desencriptado](#sistema-de-desencriptado)
    
 ## Introducción
-### ¿En qué consiste el S.I.C.R.A?
+### ¿En qué consiste el proyecto S.I.C.R.A?
 S.I.C.R.A es un sistema de cifrado personalizado basado en el cifrado César, diseñado de tal manera para proteger mensajes en un chat. Utiliza socket para conexiones "TCP" y "Threading" para la concurrencia, permitiendo el envío y recepción de mensajes en tiempo real. La seguridad se refuerza con un desplazamiento aleatorio y reglas de cifrado que permiten su descifrado en el servidor.
 
 ## Servidor / Cliente
