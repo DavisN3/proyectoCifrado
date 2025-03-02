@@ -12,6 +12,7 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
 - [Cifrado ATEDv3](#cifrado-atedv3)
   - [¿En qué consiste el cifrado cesar?](#en-qué-consiste-el-cifrado-cesar)
   - [Sistema de cifrado implementado en el proyecto](#sistema-de-cifrado-implementado-en-el-proyecto)
+   - [Sistema de reglas](#sistema-de-reglas)
    
 ## Introducción
 ### ¿En qué consiste el S.I.C.R.A?
