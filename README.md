@@ -18,20 +18,106 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 - Emplea el uso de "Socket" para aceptar conexiones y "Threading" para gestionar de manera efectiva las peticiones que se realizan.
 - Recibe los mensajes cifrados, los envía y a la vez los descodifica.
 
+```python
+import socket
+import threading
+
+# Alfabeto estándar en minúsculas
+BASE_ALFABETO = list("abcdefghijklmnopqrstuvwxyz")
+
+# Dirección y puerto del servidor
+HOST = '127.0.0.1'  # Dirección local (localhost)
+PUERTO = 55555
+
+# Creación del socket del servidor
+servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Vinculación del servidor a la dirección y puerto
+servidor.bind((HOST, PUERTO))
+servidor.listen()
+
+print(f"Servidor en ejecución en {HOST}:{PUERTO}")
+
+# Listas para almacenar clientes conectados y sus nombres de usuario
+clientes = []
+usuarios = []
+
+
+def transmitir(mensaje, cliente_excluido):
+    """
+    Envía un mensaje a todos los clientes conectados, excepto al remitente.
+    """
+    for cliente in clientes:
+        if cliente != cliente_excluido:
+            cliente.send(mensaje)
+
+
+def manejar_mensajes(cliente):
+    """
+    Maneja los mensajes entrantes de un cliente y los retransmite a los demás.
+    Si el cliente se desconecta, lo elimina de la lista.
+    """
+    while True:
+        try:
+            mensaje = cliente.recv(1024)
+            transmitir(mensaje, cliente)
+        except (ConnectionResetError, ConnectionAbortedError):
+            indice = clientes.index(cliente)
+            usuario = usuarios[indice]
+            transmitir(
+                f"ChatBot: {usuario} se ha desconectado".encode('utf-8'),
+                cliente
+            )
+            clientes.remove(cliente)
+            usuarios.remove(usuario)
+            cliente.close()
+            break
+
+
+def recibir_conexiones():
+    """
+    Acepta nuevas conexiones de clientes y maneja su comunicación.
+    """
+    while True:
+        cliente, direccion = servidor.accept()
+
+        # Solicitar nombre de usuario al cliente
+        cliente.send("@username".encode("utf-8"))
+        usuario = cliente.recv(1024).decode('utf-8')
+
+        # Almacenar cliente y nombre de usuario
+        clientes.append(cliente)
+        usuarios.append(usuario)
+
+        print(f"{usuario} se ha conectado desde {str(direccion)}")
+
+        # Notificar a los demás clientes que un nuevo usuario se ha unido
+        mensaje = f"ChatBot: {usuario} se ha unido al chat!".encode("utf-8")
+        transmitir(mensaje, cliente)
+        cliente.send("Conectado al servidor".encode("utf-8"))
+
+        # Iniciar un hilo para manejar los mensajes de este cliente
+        hilo = threading.Thread(target=manejar_mensajes, args=(cliente,))
+        hilo.start()
+
+
+# Iniciar la función para aceptar conexiones
+recibir_conexiones()
+```
 
 ### Cliente
 - Se conecta al servidor usando "TCP".
 - Cifra los mensajes antes de enviar algún mensaje.
 - Maneja la codificación "UTF-8" para la transmisión de información con el servidor.
 
-# Cifrado ATEDv1
+## Cifrado ATEDv1
 
-## Inspiracion en Cifrado César
+### Inspiracion en Cifrado César
 
 ### ¿En qué consiste el cifrado cesar?
 El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplazamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
 
-## Sitema de cifrado implementado en el proyecto:
+### Sitema de cifrado implementado en el proyecto:
 El sistema creado para el proyecto fue, como se menciona anteriormente, inspirado en el cifrado cesar, pero con la implementacion de unas reglas que amplian sus posibilidades de combinacion, las cuales serian las siguientes:
 
 #### AD_DA: Orden del Alfabeto (se puede usar cualquier letra)
