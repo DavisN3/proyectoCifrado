@@ -11,6 +11,7 @@ En este repositorio se encuentra la información sintetizada y el desarrollo fun
     - [Versión inicial Chat Cliente - Conexión cliente](#versión-inicial-chat-cliente---conexión-cliente)
 - [Cifrado ATEDv3](#cifrado-atedv3)
   - [¿En qué consiste el cifrado cesar?](#en-qué-consiste-el-cifrado-cesar)
+  - [Sitema de cifrado implementado en el proyecto](#sistema-de-cifrado-implementado-en-el-proyecto)
    
 ## Introducción
 ### ¿En qué consiste el S.I.C.R.A?
@@ -155,7 +156,7 @@ threading.Thread(target=escribir_mensajes).start()
 ### ¿En qué consiste el cifrado cesar?
 El cifrado César consiste en un sistema del estilo sustitución, en el que cada letra del texto original es desplazado por otra letra que se encuentra a un número fijo de posición de la letra en el alfabeto. Ya sea un desplazamiento de 3 en la palabra "Hola", empezando por la "H" siendo reemplazada por la "K", la "o" por la letra "r", la "l" por la "o" y finalmente la "a" por la "d", dando como resultado "Krod".
 
-### Sitema de cifrado implementado en el proyecto:
+### Sitema de cifrado implementado en el proyecto
 El sistema creado para el proyecto fue, como se menciona anteriormente, inspirado en el cifrado César, pero con la implementacion de unas reglas que amplian sus posibilidades de combinacion, las cuales serian las siguientes:
 
 #### Sistema de reglas:
