@@ -171,8 +171,9 @@ alpha_base = list("abcdefghijklmnopqrstuvwxyz") #26 indices de 0-25
 Desplazamiento basado en cifrado cesar, al guardarse como regla este numero se reemplaza por por una letra con el "indice" de desplazamiento: alpha_base[#desplazamiento]
 
 - DX#
-Sera AD_DA + X# y la posicion dentro del texto, escencialmente son las reglas y en donde se guardan, funcionara como un "insert", esta regla es escencial para facilitar el desencriptado
+Sera AD_DA + X# y la posicion dentro del texto, escencialmente son las reglas y en donde se guardan, funcionara como un "insert", esta regla es escencial para facilitar el desencriptado.
 
+#### Sistema de encriptado
 ```python
 import random
 alpha_base = list("abcdefghijklmnopqrstuvwxyz") #Alfabeto estandar
@@ -184,7 +185,7 @@ def cifrado_atedv2(texto):
   D=(random.randint(A+1, 25)) #Otra letra random de indice mayor que A
   if orden=="AD":
     alfa=alpha_base
-    AD_DA=str(alpha_base[A]) + str(alpha_base[D]) 
+    AD_DA=str(alpha_base[A]) + str(alpha_base[D])
   if orden=="DA":
     alfa=list("zyxwvutsrqponmlkjihgfedcba") #Alfabeto inverso en caso de "DA"
     AD_DA=str(alpha_base[D]) + str(alpha_base[A])
@@ -207,18 +208,39 @@ def cifrado_atedv2(texto):
   DX =(AD_DA+Xn) #DX es el orden y desplazamiento cesar
   texto_cifrado.insert(pos, DX) #DX sera insertado en la lista en una "pos"icion random
 
-  salida=''.join(texto_cifrado) #''join agregara los elementos de la lista "texto_cifrado" a una cadena vacia 
+  salida=''.join(texto_cifrado) #''join agregara los elementos de la lista "texto_cifrado" a una cadena vacia
   #transformandola efectivamente en una cadena
+  print("\nReglas que se guardaron: ",DX,) #Verificador de salida
+  #^^#Opcional para verificar que las salidas son correctas
+  salidas=[salida, pos] # [0] es la cadena cifrada
+  return salidas #salidas=[Texto cifrado, posicion de las reglas] (Guia de elementos)
 
-  salidas=[salida, DX, pos] # [0] es la cadena cifrada
-  return salidas #salidas=[salida, DX, pos] (Guia de elementos)
+if __name__=="__main__":
+  texto_original = input("Texto a cifrar: ")
+  #Mensajes de prueba:
+  #Hola Buenos dias como estan gente aqui cifrando un mensaje con un viejo amigo, FELIZ LUNES
+  #Hola buenas!, esto funciona?
 
-def des_atedv2(salidad, DX, pos):
-  reglas=list(DX) #Se desarman las reglas guardadas
+  texto_cifrado = cifrado_atedv2(texto_original) #La salida sera totalmente aleatorea
+  pos=texto_cifrado[1]
+
+  print("\nTexto cifrado:", texto_cifrado[0])
+  salida=texto_cifrado[0]
+  #Opcional:
+  print("\nEscencialmente no se imprimiran:")
+  print("\nPosicion de reglas en la cadena:",pos)
+  print("Reglas guardadas: ",str(salida[pos]+salida[pos+1]+salida[pos+2]),) #Esta salida debe ser igual a la de la funcion
+  print("Orden: ", (salida[pos]+salida[pos+1]),"interpretarlo frente a lo dicho en el documento")
+```
+#### Sistema de desencriptado
+```python
+alpha_base = list("abcdefghijklmnopqrstuvwxyz") #Alfabeto estandar
+def des_atedv2(salidad, pos):
+  reglas=(salidad[pos],salidad[pos+1],salidad[pos+2]) #Se desarman las reglas guardadas, y se guardan en una tupla
   salida=list(salidad) #Tranformar la cadena cifrada en lista para facilitar 1 modificacion
   #Esta parte definira el orden de alfabeto usado:
-  letra1 = alpha_base.index(reglas[0]) 
-  letra2 = alpha_base.index(reglas[1]) 
+  letra1 = alpha_base.index(reglas[0])
+  letra2 = alpha_base.index(reglas[1])
   desplazamiento=alpha_base.index(reglas[2]) #La 3ra letra se transformara en un numero con esto
   #cada letra tiene un indice definido en el alpha_base veremos cual va primero para definir el orden
   if letra1<letra2:
@@ -251,175 +273,25 @@ def des_atedv2(salidad, DX, pos):
       texto_descifrado.append(char) #Si no es una letra, lo agregamos tal cual (espacios, signos de puntuación, etc.)
 
   salida_f=''.join(texto_descifrado)
-  
+
   return salida_f
   
 if __name__=="__main__":
-  print("CIFRADO!")
-  texto_original = input("Texto a cifrar: ") # Hola Mundo!
-  
-  texto_cifrado = cifrado_atedv2(texto_original) #La salida sera totalmente aleatorea
-  
-  print("Texto original:", texto_original)
-  print("Texto cifrado:", texto_cifrado[0]) #Solo el primer elemento de la lista de salida sera la palabra cifrada
+  #Entradas del programa=[salida, pos] (Guia de elementos)
 
-  print("DESCIFRADO!")
-  
-  #salidas=[salida, DX, pos] esta es la informacion valioza >:)
+  texto_cifrado = input("Texto a desencriptar: ") #Hola Mundo!
+  pos=int(input("poscicion de DX: "))
 
-  salida=texto_cifrado[0]
-  DX=texto_cifrado[1]
-  pos=texto_cifrado[2]
-  
-  texto_desencriptado = des_atedv2(salida, DX, pos) #La salida sera totalmente aleatorea
-  
-  print("Texto cifrado:", texto_cifrado[0]) 
-  print("Texto descifrado:", texto_desencriptado)
+  texto_desencriptado = des_atedv2(texto_cifrado, pos)
+
+  print("\nTexto cifrado:", texto_cifrado)
+  print("\nTexto desencriptado:", texto_desencriptado)
 ```
 **Importante:** *Para mejor entendimiento de Salidas consulte el nootebook adjunto arriba*
 
 Si quiere probar independientemente alguna de las 2 funciones y/o ver versiones tempranas del codigo entre a: https://github.com/Felip-UN/ATEDx1
 
-#  Automatización de mensajes (contraseña).
-El código tiene como funcionalidad envíar un correo electrónico de manera periódica (automatizada) de manera alaeatoria generada cada vez que se ejecuta el código. Dicho proceso se ejecuta en un bucle infinito, el cual el mensaje cada que pase "intervalo" segundos se genera un nuevo número aleatorio y se vuelve a enviar al correo dicha contraseña. Esto gracias principalmente a la librería "email.mime" que permite lograr este tipo de programas.
 
-```python
-import smtplib
-import random
-import time
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
-#Función para enviar un correo a través de Gmail con esos datos.
-def enviar_correo_gmail(destinatario, asunto, mensaje, remitente, contraseña):
-    #Conexión al servidor SMTP de Gmail (587 es el puerto para ejecutar el código)
-    servidor = smtplib.SMTP('smtp.gmail.com', 587)
-    #Establece una conexión con el servidor.
-    servidor.starttls()
-    # Inicia sesión al servidor usando los datos proporcionados en la casilla de remitente y contraseña.
-    servidor.login(remitente, contraseña)
-    
-		#Crea el mensaje de correo
-    correo = MIMEMultipart()
-    correo['From'] = remitente
-    correo['To'] = destinatario
-    correo['Subject'] = asunto
-    correo.attach(MIMEText(mensaje, 'plain'))
-    #Envía el mensaje
-    servidor.send_message(correo)
-    #Finaliza su conexión con el servidor.
-    servidor.quit()
-
-if __name__ == "__main__":
-    #Definen diferentes variables
-    remitente = ""
-    contraseña = ""
-    destinatario = ""
-    asunto = "Contraseña"
-    
-		#Intervalo en segundos para enviar el código.
-    intervalo = 500
-    #Bucle para enviar correos periodicamente de manera infinita.
-    while True:
-        #Genera un número aleatorio de 4 digitos, el cual va a ser nuestra contraseña.
-        num = random.randint(0, 9999)
-        #Crea el mensaje con la contraseña (Rellena para que si, por ejemplo es un número de 3 cifras ponga un 0 antes.)
-        mensaje = f"Tu contraseña es: {num:04d}"
-        #Llama a nuestra variable para enviar correos
-        enviar_correo_gmail(destinatario, asunto, mensaje, remitente, contraseña)
-        #Esperamos el intervalo (intervalo) para que se vuelva a enviar otro correo.
-        time.sleep(intervalo)
-```
-
-# Combinación de la contraseña y el proceso de automatización de la contraseña.
-
-EL prososito del siguiente programa es poder probar salidas de correo con una version temprana del cifrado (hay errores de indentado en una funcion definida por problemas de copiado desde otro repositorio)
-```python
-import smtplib
-import random
-import time
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
-alpha_base = list("abcdefghijklmnopqrstuvwxyz")
-
-def enviar_correo_gmail(destinatario, asunto, mensaje, remitente, contraseña):
-    servidor = smtplib.SMTP('smtp.gmail.com', 587)
-    servidor.starttls()
-    servidor.login(remitente, contraseña)
-
-    correo = MIMEMultipart()
-    correo['From'] = remitente
-    correo['To'] = destinatario
-    correo['Subject'] = asunto
-    correo.attach(MIMEText(mensaje, 'plain'))
-
-    servidor.send_message(correo)
-    servidor.quit()
-
-def cifrado_cesar(texto, clave, alfa):
-    texto_cifrado = []
-    for char in texto:
-        if char.isalpha(): 
-            char_minus = char.lower()
-            indice = alfa.index(char_minus)
-            nuevo_indice = (indice + clave) % 26 
-            nuevo_char = alfa[nuevo_indice]
-            if char.isupper(): 
-                nuevo_char = nuevo_char.upper()
-            texto_cifrado.append(nuevo_char)
-        else:
-            texto_cifrado.append(char)
-    return texto_cifrado
-
-def cifrado1(num):
-    while True:
-        texto_original = input("Texto a cifrar: ")
-        if texto_original.lower() == "salir":
-            print ("chau bro")
-            break
-        desplazamiento = random.randint(1, 25)
-        Xn = alpha_base[desplazamiento]
-        orden = random.choice(["AD", "DA"])
-        pos = random.randint(0, len(texto_original))
-        A = random.randint(0, 23)
-        D = random.randint(A + 1, 25)
-        if orden == "AD":
-            alfa = alpha_base
-            AD_DA = str(alpha_base[A]) + str(alpha_base[D])
-        else:
-            alfa = list("zyxwvutsrqponmlkjihgfedcba")
-            AD_DA = str(alpha_base[D]) + str(alpha_base[A])
-            texto_cifrado = cifrado_cesar(texto_original, desplazamiento, alfa)
-            DX = AD_DA + Xn
-            texto_cifrado.insert(pos, DX)
-            salida = ''.join(texto_cifrado)
-            print(f"Texto cifrado: {salida}")
-            x = input("Ingrese la contraseña: ")
-            if str(x) == str(num):
-                print(f"Contraseña correcta. Texto original: {texto_original}")
-            else:
-                print("Contraseña incorrecta.")
-
-if __name__ == "__main__":
-    remitente = ""
-    contraseña = ""
-    destinatario = ""
-    asunto = "Contraseña"
-
-    intervalo = 500 # en seg
-    while True:
-        num = random.randint(0, 9999)
-        mensaje = f"Tu contraseña es: {num:04d}"
-        enviar_correo_gmail(destinatario, asunto, mensaje, remitente, contraseña)
-        print ("Escriba 'salir' si desea salir del programa.")
-        cifrado1(num)
-        time.sleep(intervalo)
-```
-## Servidores
-Un servidor host es un sistema informático que proporciona datos a otros dispositivos llamados clientes dentro de una red. Su función principal es almacenar, procesar y gestionar la comunicación entre dispositivos permitiendo la interacción, por ejemplo, con un microcontrolador.
-¿Cómo funcionan?
-Cada servidor host tiene una dirección IP única que lo identifica dentro de la red y utiliza protocolos de comunicación (como HTTP, MQTT, TCP/IP) para recibir y procesar solicitudes (datos) de los clientes.
 
 ### Fuentes de consulta
 Como extra se agrega que una de las principales fuentes de consulta fue [stock overflow](https://stackoverflow.com) en especial para lo que fue la biblioteca socket, [w3](https://www.w3schools.com) para la biblioteca **random** y ademas del repositorio de la clase 13 para guiarnos con algunas funciones [Github](https://github.com/fegonzalez7/pdc_unal_clase13)
