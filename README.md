@@ -881,6 +881,7 @@ flowchart TD
     %% Conexiones finales
     N --> O[Finalizar ciclo de envío de mensajes]
     O --> I
+end
 ```
 #### Explicación de las funciones 2
 1. def recibir_mensajes()
@@ -899,6 +900,23 @@ def recibir_mensajes():
             print("\nError:", error)
             cliente.close()
             break
+```
+``` mermaid
+flowchart TD
+    A[Inicio] --> B[Iniciar bucle while True]
+    B --> C[Intentar recibir mensaje del servidor]
+    C --> D[Recibir mensaje con cliente.recv]
+    D --> E[Decodificar mensaje con utf-8]
+    E --> F{¿Mensaje es @username?}
+    F -->|Sí| G[Enviar nombre de usuario con cliente.send]
+    F -->|No| H[Imprimir mensaje recibido]
+    G --> C
+    H --> C
+    C --> I{¿Ocurrió algún error?}
+    I -->|No| C
+    I -->|Sí| J[Imprimir error]
+    J --> K[Cerrar cliente]
+    K --> L[Romper bucle while]
 ```
 
 2. def encriptar(mensaje)
