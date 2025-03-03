@@ -956,6 +956,36 @@ def encriptar(mensaje):
     return [salida, posicion]
 ```
 
+```mermaid
+flowchart TD
+    A[Inicio] --> B[Generar desplazamiento aleatorio 1-25]
+    B --> C[Seleccionar orden alfabético aleatorio AD o DA]
+    C --> D[Generar A entre 0 y 23]
+    D --> E[Generar D entre A+1 y 25]
+    E --> F{¿Orden es AD?}
+    F -->|Sí| G[Usar alfabeto normal y establecer reglas como A, D]
+    F -->|No| H[Usar alfabeto invertido y establecer reglas como D, A]
+    G --> I[Iterar sobre caracteres del mensaje]
+    H --> I
+    I --> J{¿Caracter es alfabético?}
+    J -->|Sí| K[Convertir caracter a minúscula]
+    K --> L[Obtener índice en alfabeto_usado]
+    L --> M[Calcular nuevo índice con desplazamiento]
+    M --> N[Obtener nuevo carácter según nuevo índice]
+    N --> O{¿Caracter original es mayúscula?}
+    O -->|Sí| P[Convertir nuevo carácter a mayúscula]
+    O -->|No| Q[Usar el nuevo carácter tal como está]
+    P --> R[Agregar al mensaje cifrado]
+    Q --> R
+    R --> I
+    J -->|No| I
+    I --> S[Generar Xn del alfabeto con desplazamiento]
+    S --> T[Seleccionar posición aleatoria entre 0 y longitud del mensaje]
+    T --> U[Insertar reglas y Xn en la posición seleccionada]
+    U --> V[Unir el mensaje cifrado]
+    V --> W[Retornar mensaje cifrado y posición]
+```
+
 3. entrada_original = builtins.input
 Modifica el ingreso del mensaje, para que se cifre antes de ser enviado al servidor.
 
