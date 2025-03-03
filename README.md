@@ -867,10 +867,10 @@ flowchart TD
     %% Función de encriptación
     subgraph Encriptar
         A1[Generar desplazamiento aleatorio 1-25]
-        A2[Seleccionar orden alfabético aleatorio AD o DA]
-        A3[Seleccionar reglas de cifrado A, D según el orden]
-        A4[Iterar sobre caracteres del mensaje]
-        A5{¿Caracter es alfabético?}
+        A1 --> A2[Seleccionar orden alfabético aleatorio AD o DA]
+        A2 --> A3[Seleccionar reglas de cifrado A, D según el orden]
+        A3 --> A4[Iterar sobre caracteres del mensaje]
+        A4 --> A5{¿Caracter es alfabético?}
         A5 -->|Sí| A6[Obtener índice del alfabeto y calcular nuevo índice]
         A6 --> A7[Obtener el nuevo carácter mayúscula/minúscula]
         A7 --> A8[Agregar al mensaje cifrado]
