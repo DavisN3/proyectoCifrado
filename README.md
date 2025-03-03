@@ -1001,6 +1001,18 @@ def nueva_entrada(prompt=""):
 
 builtins.input = nueva_entrada
 ```
+```mermaid
+flowchart TD
+    A[Inicio] --> B[Guardar función original input]
+    B --> C[Definir nueva entrada con prompt]
+    C --> D[Leer entrada del usuario con entrada_original]
+    D --> E{¿El texto no está vacío?}
+    E -->|Sí| F[Encriptar el texto con la función encriptar]
+    F --> G[Retornar texto cifrado y posición separada por dos barras verticales]
+    E -->|No| H[Retornar texto original]
+    G --> I[Asignar nueva_entrada a builtins.input]
+    H --> I
+```
 
 4. def escribir_mensajes()
 Captura la entrada del usuario (cifrada) y lo envía al servidor.
@@ -1010,6 +1022,14 @@ def escribir_mensajes():
     while True:
         mensaje = f"{usuario}: {input('')}"
         cliente.send(mensaje.encode('utf-8'))
+```
+```mermaid
+flowchart TD
+    A[Inicio] --> B[Iniciar bucle while True]
+    B --> C[Leer mensaje del usuario con input]
+    C --> D[Formatear mensaje como usuario: mensaje]
+    D --> E[Enviar mensaje al servidor con cliente.send]
+    E --> B
 ```
 
 ## Fuentes de consulta
