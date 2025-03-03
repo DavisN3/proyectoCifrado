@@ -584,7 +584,7 @@ def descifrar_mensaje(mensaje_cifrado, posicion):
     return ''.join(texto_descifrado)
 ```
 ``` mermaid
-
+flowchart TD
   A[Inicio] --> B[Entrada: mensaje_cifrado, posicion]
     B --> C[Obtener reglas: mensaje_cifrado - posicion:posicion+3 -]
     C --> D[Obtener mensaje sin reglas: lista_mensaje]
