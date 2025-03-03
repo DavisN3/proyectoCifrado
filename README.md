@@ -524,7 +524,7 @@ def recibir_conexiones():
 recibir_conexiones()
 ```
 #### Explicación de las funciones 1
-1. difundir(mensaje, cliente_excluido)
+1. difundir(mensaje, cliente_excluido):
 Enviar el mensaje a todos los clientes, menos a quien lo ha enviado.
 
 ```python
@@ -546,7 +546,7 @@ flowchart TD
     H --> |No| D
  ```  
 
-2.  def descifrar_mensaje(mensaje_cifrado, posicion)
+2.  def descifrar_mensaje(mensaje_cifrado, posicion):
 Recibe un mensaje cifrado el cual viene con una subcadena con las reglas de cifrado, extrae dichas reglas y elimina la subcadena (regla) y descifra el mensaje restando el desplazamiento indicado.
 
 ```python
@@ -583,8 +583,37 @@ def descifrar_mensaje(mensaje_cifrado, posicion):
     
     return ''.join(texto_descifrado)
 ```
+``` mermaid
 
-3. def manejar_mensajes(cliente)
+  A[Inicio] --> B[Entrada: mensaje_cifrado, posicion]
+    B --> C[Obtener reglas: mensaje_cifrado - posicion:posicion+3 -]
+    C --> D[Obtener mensaje sin reglas: lista_mensaje]
+    D --> E[Eliminar reglas del mensaje]
+    E --> F[Obtener índices de letras en reglas: letra1, letra2, desplazamiento]
+    F --> G{¿letra1 < letra2?}
+    G -->|Sí| H[Orden == AD alfabeto normal]
+    G -->|No| I[Orden == DA alfabeto invertido]
+    H --> J[Usar alfabeto normal]
+    I --> J[Usar alfabeto invertido]
+    J --> K[Iniciar ciclo sobre caracteres del mensaje sin reglas]
+    K --> L{¿caracter es alfabético?}
+    L -->|Sí| M[Obtener índice del caracter en alfabeto_usado]
+    M --> N[Calcular nuevo índice: <indice - desplazamiento> % 26]
+    N --> O[Obtener nuevo carácter]
+    O --> P{¿caracter es mayúscula?}
+    P -->|Sí| Q[Convertir nuevo carácter a mayúscula]
+    P -->|No| R[Dejar nuevo carácter en minúscula]
+    Q --> S[Agregar a texto_descifrado]
+    R --> S
+    L -->|No| T[Agregar caracter sin cambio a texto_descifrado]
+    S --> U[Fin del ciclo]
+    T --> U
+    U --> V[Unir texto_descifrado en una cadena]
+    V --> W[Retornar mensaje descifrado]
+    W --> X[Fin]
+```
+
+3. def manejar_mensajes(cliente):
 Administra mensajes que provienen de un cliente.
 
 ```python
@@ -618,6 +647,66 @@ def manejar_mensajes(cliente):
             cliente.close()
             break
 ```
+``` mermaid
+flowchart TD
+    A[Inicio] --> B[Recibir mensaje del cliente]
+    B --> C{¿El mensaje contiene dos barras verticales?}
+    
+    %% Flujo para mensaje con "||"
+    C -->|Sí| D[Separar mensaje en usuario y resto]
+    D --> E[Separar texto cifrado y posición]
+    E --> F[Convertir posición en número entero]
+    F --> G[Descifrar mensaje con la función descifrar_mensaje]
+    G --> H[Formatear mensaje: usuario y mensaje cifrado]
+    H --> I[Imprimir mensaje completo]
+    I --> J[Difundir mensaje completo a los clientes]
+    J --> M[Continuar recibiendo mensajes]
+    
+    %% Flujo para mensaje sin "||"
+    C -->|No| K[Imprimir mensaje recibido]
+    K --> L[Difundir mensaje a los clientes]
+    L --> M
+
+    %% Manejo de errores durante el descifrado
+    D1[Error al procesar mensaje cifrado] --> D2[Imprimir error]
+    D2 --> D3[Difundir mensaje original a los clientes]
+    D3 --> M
+
+    %% Recibir mensaje de error (desconexión del cliente)
+    B --> N{¿Error al recibir mensaje?}
+    N -->|Sí| O[Obtener nombre de usuario y desconectar]
+    O --> P[Difundir mensaje de desconexión]
+    P --> Q[Cerrar conexión del cliente]
+    Q --> R[Eliminar cliente y nombre de usuario de las listas]
+    R --> S[Finalizar ciclo de cliente]
+    N -->|No| B
+
+    %% Función "descifrar_mensaje"
+    subgraph Descifrar Mensaje
+        A1[Inicio] --> A2[Obtener reglas del mensaje: texto_cifrado y posicion]
+        A2 --> A3[Eliminar las reglas del mensaje]
+        A3 --> A4[Obtener los índices de las reglas: letra1, letra2, desplazamiento]
+        A4 --> A5{¿letra1 < letra2?}
+        A5 -->|Sí| A6[Orden = AD alfabeto normal]
+        A5 -->|No| A7[Orden = DA alfabeto invertido]
+        A6 --> A8[Usar alfabeto normal]
+        A7 --> A8
+        A8 --> A9[Iterar sobre caracteres del mensaje sin reglas]
+        A9 --> A10{¿caracter es alfabético?}
+        A10 -->|Sí| A11[Obtener índice en alfabeto_usado]
+        A11 --> A12[Calcular nuevo índice: <indice - desplazamiento> % 26]
+        A12 --> A13[Obtener nuevo carácter con el nuevo índice]
+        A13 --> A14{¿caracter es mayúscula?}
+        A14 -->|Sí| A15[Convertir a mayúscula]
+        A14 -->|No| A16[Dejar como minúscula]
+        A15 --> A17[Agregar a texto_descifrado]
+        A16 --> A17
+        A10 -->|No| A18[Agregar caracter sin cambio a texto_descifrado]
+        A17 --> A19[Unir texto_descifrado]
+        A18 --> A19
+        A19 --> A20[Retornar mensaje descifrado]
+```
+
 4. def recibir_conexiones()
 Establece y acepta nuevas conexiones de clientes al servidor.
 
@@ -635,6 +724,22 @@ def recibir_conexiones():
         cliente.send("Conectado al servidor".encode("utf-8"))
         hilo = threading.Thread(target=manejar_mensajes, args=(cliente,))
         hilo.start()
+```
+``` mermaid
+flowchart TD
+    A[Inicio] --> B[Esperar conexiones en el servidor]
+    N --> B
+    B --> C[Cliente y dirección aceptados por el servidor]
+    C --> D[Enviar @username al cliente]
+    D --> E[Recibir nombre de usuario del cliente]
+    E --> F[Agregar cliente y nombre de usuario a las listas]
+    F --> G[Imprimir mensaje de conexión]
+    G --> H[Crear mensaje de bienvenida: ChatBot usuario se unió al chat!]
+    H --> I[Difundir mensaje de bienvenida a los clientes]
+    I --> J[Enviar Conectado al servidor al cliente]
+    J --> K[Crear hilo para manejar mensajes]
+    K --> L[Iniciar hilo con la función manejar_mensajes]
+    L --> N[Esperar nuevas conexiones]
 ```
 ### Usuario integrado
 ```python
@@ -733,6 +838,48 @@ def escribir_mensajes():
 threading.Thread(target=recibir_mensajes).start()
 threading.Thread(target=escribir_mensajes).start()
 ```
+```mermaid
+flowchart TD
+    A[Inicio] --> B[Definir alfabeto y solicitar nombre de usuario]
+    B --> C[Conectar cliente al servidor host, puerto]
+    
+    %% Flujo para recibir mensajes
+    C --> D[Iniciar hilo para recibir mensajes]
+    D --> E[Esperar mensaje del servidor]
+    E --> F{¿Mensaje es @username?}
+    F -->|Sí| G[Enviar nombre de usuario al servidor]
+    F -->|No| H[Imprimir mensaje recibido con salto de línea]
+    G --> E
+    H --> E
+
+    %% Flujo para cifrar y enviar mensajes
+    C --> I[Iniciar hilo para escribir mensajes]
+    I --> J[Esperar entrada del usuario]
+    J --> K{¿El mensaje no está vacío?}
+    K -->|Sí| L[Cifrar el mensaje con encriptar]
+    L --> M[Generar texto cifrado y posición]
+    M --> N[Enviar mensaje cifrado al servidor]
+    N --> I
+    K -->|No| I
+
+    %% Función de encriptación
+    subgraph Encriptar
+        A1[Generar desplazamiento aleatorio 1-25]
+        A2[Seleccionar orden alfabético aleatorio AD o DA]
+        A3[Seleccionar reglas de cifrado A, D según el orden]
+        A4[Iterar sobre caracteres del mensaje]
+        A5{¿Caracter es alfabético?}
+        A5 -->|Sí| A6[Obtener índice del alfabeto y calcular nuevo índice]
+        A6 --> A7[Obtener el nuevo carácter mayúscula/minúscula]
+        A7 --> A8[Agregar al mensaje cifrado]
+        A5 -->|No| A8
+        A8 --> A9[Insertar las reglas y Xn en una posición aleatoria]
+        A9 --> A10[Retornar mensaje cifrado y posición]
+
+    %% Conexiones finales
+    N --> O[Finalizar ciclo de envío de mensajes]
+    O --> I
+end
 #### Explicación de las funciones 2
 1. def recibir_mensajes()
 Escucha los mensajes enviados desde el servidor y los procesa.
