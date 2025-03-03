@@ -533,6 +533,18 @@ def difundir(mensaje, cliente_excluido):
         if cliente != cliente_excluido:
             cliente.send(mensaje)
    ```
+ ``` mermaid
+flowchart TD
+    A[Inicio] --> B[Entrada: mensaje, cliente_excluido]
+    B --> C[Iniciar ciclo sobre clientes]
+    C --> D{¿cliente != cliente_excluido?}
+    D -->|Sí| E[Enviar mensaje]
+    D -->|No| F[Saltar al siguiente cliente]
+    E --> F
+    H -->|Sí| G[Fin del ciclo]
+    F --> H{¿Se recorrieron todos los clientes?}
+    H --> |No| D
+ ```  
 
 2.  def descifrar_mensaje(mensaje_cifrado, posicion)
 Recibe un mensaje cifrado el cual viene con una subcadena con las reglas de cifrado, extrae dichas reglas y elimina la subcadena (regla) y descifra el mensaje restando el desplazamiento indicado.
