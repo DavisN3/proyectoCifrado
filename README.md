@@ -41,9 +41,6 @@ El sistema S.I.C.R.A se basa en una arquitectura de comunicación tipo "Socket" 
 import socket   
 import threading
 
-# Alfabeto estándar en minúsculas
-base_alfabeto = list("abcdefghijklmnopqrstuvwxyz")  
-
 # Dirección y puerto del servidor
 host = '127.0.0.1'  # Dirección local (localhost)
 puerto = 55555  
