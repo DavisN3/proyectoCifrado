@@ -705,6 +705,7 @@ flowchart TD
         A17 --> A19[Unir texto_descifrado]
         A18 --> A19
         A19 --> A20[Retornar mensaje descifrado]
+end
 ```
 
 4. def recibir_conexiones()
