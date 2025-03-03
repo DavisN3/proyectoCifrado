@@ -838,6 +838,7 @@ def escribir_mensajes():
 threading.Thread(target=recibir_mensajes).start()
 threading.Thread(target=escribir_mensajes).start()
 ```
+
 ```mermaid
 flowchart TD
     A[Inicio] --> B[Definir alfabeto y solicitar nombre de usuario]
@@ -879,7 +880,7 @@ flowchart TD
     %% Conexiones finales
     N --> O[Finalizar ciclo de envío de mensajes]
     O --> I
-end
+```
 #### Explicación de las funciones 2
 1. def recibir_mensajes()
 Escucha los mensajes enviados desde el servidor y los procesa.
